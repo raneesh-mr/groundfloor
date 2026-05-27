@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice — Ground Floor</title>
+<meta name="description" content="A GCC PPM schedule is not a maintenance plan. It is a document produced to satisfy a contract, an audit, or a handover requirement. Here is why — and how the ones that actually work are built differently.">
+<meta name="author" content="Raneesh Raveendran">
+<meta property="og:title" content="Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://groundfloor.raneesh.net/ppm-schedules-fail">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0WYXB77BGJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0WYXB77BGJ');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#071728;--navy-mid:#0E2640;--navy-light:#163352;
+  --gold:#C8973C;--gold-light:#E4B96A;--gold-pale:#F5E6CC;
+  --cream:#FAF7F2;--white:#FFFFFF;
+  --text:#0E1C2B;--text-mid:#3D5168;--text-muted:#7A8FA8;
+  --border:#D6CCBA;--border-light:#EDE8DF;
+  --fd:'Playfair Display',Georgia,serif;
+  --fb:'Outfit',sans-serif;--fm:'Roboto Mono',monospace;
+  --r:8px;--rl:14px;--tr:.2s ease;--max:1100px;--aw:680px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--fb);background:var(--cream);color:var(--text);line-height:1.7;font-size:16px}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border-light)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:58px;display:flex;align-items:center;gap:12px}
+.nav-brand{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:baseline;gap:1px}
+.nav-brand .dot{color:var(--gold);font-size:22px;line-height:0;vertical-align:-4px}
+.nav-back{font-family:var(--fm);font-size:11px;letter-spacing:.06em;color:var(--text-muted);padding:5px 10px;border:1px solid var(--border-light);border-radius:var(--r);transition:all var(--tr)}
+.nav-back:hover{color:var(--text-mid);border-color:var(--border)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.progress-wrap{width:100px;height:2px;background:var(--border-light);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;background:var(--gold);width:0%;transition:width .1s}
+.share-btn{font-family:var(--fm);font-size:11px;letter-spacing:.05em;color:var(--text-muted);padding:6px 12px;border:1px solid var(--border-light);border-radius:var(--r);cursor:pointer;background:transparent;transition:all var(--tr)}
+.share-btn:hover{color:var(--gold);border-color:var(--gold)}
+.nav-cta{font-family:var(--fb);font-size:12px;font-weight:600;color:var(--white);background:var(--navy);padding:7px 16px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.nav-cta:hover{background:var(--navy-mid)}
+
+/* ARTICLE HEADER */
+.art-header{max-width:var(--aw);margin:0 auto;padding:60px 28px 44px}
+.art-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.art-pillar::before{content:'';display:block;width:20px;height:2px;background:var(--gold)}
+.art-h1{font-family:var(--fd);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.5px;color:var(--navy);margin-bottom:16px}
+.art-subtitle{font-family:var(--fd);font-size:18px;font-style:italic;font-weight:400;color:var(--text-muted);line-height:1.55;margin-bottom:28px}
+.art-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--border-light)}
+.am-author{display:flex;align-items:center;gap:10px}
+.am-avatar{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.am-name{font-size:13px;font-weight:600;color:var(--navy)}
+.am-role{font-family:var(--fm);font-size:10px;letter-spacing:.05em;color:var(--text-muted)}
+.am-sep{width:1px;height:24px;background:var(--border-light)}
+.am-item{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted)}
+.am-item strong{color:var(--text-mid)}
+
+/* LAYOUT */
+.art-layout{max-width:var(--max);margin:0 auto;padding:0 28px 80px;display:grid;grid-template-columns:var(--aw) 1fr;gap:56px;align-items:start}
+
+/* ARTICLE BODY */
+.art-body h2{font-family:var(--fd);font-size:24px;font-weight:700;letter-spacing:-.3px;color:var(--navy);margin:40px 0 14px;line-height:1.2}
+.art-body h3{font-family:var(--fd);font-size:18px;font-weight:600;color:var(--navy);margin:28px 0 10px}
+.art-body p{color:var(--text-mid);margin-bottom:18px;font-size:16px;line-height:1.8}
+.art-body p strong{color:var(--text);font-weight:600}
+.art-body ul,.art-body ol{color:var(--text-mid);padding-left:22px;margin-bottom:18px}
+.art-body li{margin-bottom:8px;line-height:1.7}
+
+/* Pull quote */
+.pull-quote{border-left:3px solid var(--gold);padding:20px 24px;margin:32px 0;background:rgba(200,151,60,.05);border-radius:0 var(--r) var(--r) 0}
+.pull-quote p{font-family:var(--fd);font-size:19px;font-style:italic;color:var(--navy);line-height:1.5;margin-bottom:8px}
+.pull-quote cite{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase}
+
+/* Callout */
+.callout{border-radius:var(--r);padding:20px 22px;margin:24px 0}
+.callout.gold{background:rgba(200,151,60,.07);border:1px solid rgba(200,151,60,.25)}
+.callout.navy{background:rgba(7,23,40,.05);border:1px solid rgba(7,23,40,.15)}
+.callout.green{background:rgba(16,163,127,.06);border:1px solid rgba(16,163,127,.2)}
+.callout-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.callout.navy .callout-label{color:var(--navy)}
+.callout.green .callout-label{color:#0f8f6e}
+.callout p{margin-bottom:0;font-size:14px;line-height:1.7}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+.data-table th{text-align:left;padding:10px 14px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--border);background:var(--white)}
+.data-table td{padding:11px 14px;color:var(--text-mid);border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.55}
+.data-table td:first-child{font-weight:600;color:var(--navy)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(200,151,60,.03)}
+
+/* Numbered list */
+.nl{list-style:none;padding:0;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+.nl li{display:grid;grid-template-columns:44px 1fr;gap:0 14px;align-items:start;padding:16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--r)}
+.nl-num{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--border);line-height:1;padding-top:2px}
+.nl-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.nl-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+/* Stat block */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.stat-box{background:var(--white);border:1px solid var(--border-light);border-radius:var(--r);padding:16px 14px;text-align:center}
+.stat-num{font-family:var(--fd);font-size:28px;font-weight:700;color:var(--navy);line-height:1;margin-bottom:4px}
+.stat-label{font-family:var(--fm);font-size:10px;letter-spacing:.06em;color:var(--text-muted);line-height:1.4}
+.stat-src{font-family:var(--fm);font-size:9px;letter-spacing:.04em;color:var(--border);margin-top:4px}
+
+/* Tags */
+.art-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border-light)}
+.tag-chip{font-family:var(--fm);font-size:10px;letter-spacing:.07em;color:var(--text-muted);border:1px solid var(--border);background:var(--white);padding:4px 12px;border-radius:100px}
+
+/* End CTA */
+.art-end-cta{background:var(--navy);border-radius:var(--rl);padding:32px 28px;margin-top:40px;position:relative;overflow:hidden}
+.art-end-cta::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:radial-gradient(circle,rgba(200,151,60,.2) 0%,transparent 70%);border-radius:50%}
+.aec-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.aec-title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--white);margin-bottom:10px}
+.aec-body{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:18px}
+.aec-btn{display:inline-block;background:var(--gold);color:var(--navy);font-family:var(--fb);font-size:13px;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:background var(--tr)}
+.aec-btn:hover{background:var(--gold-light)}
+
+/* SIDEBAR */
+.art-sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:16px}
+.toc-card,.prod-card,.sub-card,.auth-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px}
+.toc-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.toc-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:2px}
+.toc-list a{font-size:12px;color:var(--text-muted);padding:5px 8px;border-radius:6px;display:block;transition:all var(--tr);border-left:2px solid transparent}
+.toc-list a:hover{color:var(--navy);background:var(--cream)}
+.toc-list a.active{color:var(--gold);border-left-color:var(--gold);background:rgba(200,151,60,.05)}
+.prod-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.prod-title{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.prod-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.prod-features{list-style:none;padding:0;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.prod-features li{font-size:12px;color:var(--text-mid);padding-left:14px;position:relative;line-height:1.5}
+.prod-features li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:11px}
+.prod-btn{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:700;color:var(--navy);background:var(--gold);padding:10px;border-radius:var(--r);transition:background var(--tr)}
+.prod-btn:hover{background:var(--gold-light)}
+.sub-title{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sub-desc{font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.sub-form input[type="email"]{width:100%;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;color:var(--text);font-size:13px;font-family:var(--fb);outline:none;margin-bottom:7px;transition:border-color var(--tr)}
+.sub-form input:focus{border-color:var(--gold)}
+.sub-form button{width:100%;background:var(--navy);color:var(--white);font-family:var(--fb);font-size:12px;font-weight:700;padding:9px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.sub-form button:hover{background:var(--navy-mid)}
+.sub-success{display:none;font-size:12px;font-weight:600;color:#0f8f6e;background:rgba(16,163,127,.08);border:1px solid rgba(16,163,127,.2);border-radius:var(--r);padding:8px;margin-top:6px;text-align:center}
+.auth-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.auth-avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:700;color:var(--gold);flex-shrink:0}
+.auth-name{font-size:13px;font-weight:600;color:var(--navy)}
+.auth-role{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+.auth-bio{font-size:12px;color:var(--text-muted);line-height:1.65;margin-bottom:12px}
+.auth-link{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--gold);padding:8px;border:1px solid rgba(200,151,60,.3);border-radius:var(--r);transition:all var(--tr);background:rgba(200,151,60,.05)}
+.auth-link:hover{background:var(--gold);color:var(--navy)}
+
+/* RELATED */
+.related{border-top:1px solid var(--border-light);padding:48px 28px 64px;max-width:var(--max);margin:0 auto}
+.related-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.rel-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px;cursor:pointer;transition:all var(--tr)}
+.rel-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.rc-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.rc-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:8px}
+.rc-meta{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border-light);background:var(--cream)}
+.footer-inner{max-width:var(--max);margin:0 auto;padding:28px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy)}
+.footer-brand span{color:var(--gold);font-style:italic}
+.footer-tagline{font-family:var(--fm);font-size:9px;letter-spacing:.08em;color:var(--text-muted);margin-top:2px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted);transition:color var(--tr)}
+.footer-links a:hover{color:var(--text-mid)}
+.footer-copy{font-family:var(--fm);font-size:10px;letter-spacing:.03em;color:var(--text-muted);width:100%;padding-top:14px;border-top:1px solid var(--border-light);margin-top:6px}
+.scroll-top{position:fixed;bottom:24px;right:24px;width:36px;height:36px;background:var(--navy);color:var(--gold);border-radius:var(--r);font-family:var(--fm);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity var(--tr);z-index:100}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+
+@media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}.stat-row{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}.stat-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="https://groundfloor.raneesh.net" class="nav-brand">Ground<span class="dot">·</span>Floor</a>
+    <a href="https://groundfloor.raneesh.net" class="nav-back">← All Articles</a>
+    <div class="nav-right">
+      <div class="progress-wrap"><div class="progress-bar" id="pb"></div></div>
+      <button class="share-btn" onclick="shareArticle()">Share ↗</button>
+      <button class="nav-cta" onclick="document.getElementById('sub-email').focus()">Subscribe</button>
+    </div>
+  </div>
+</nav>
+
+<header class="art-header">
+  <div class="art-pillar">FM Operations</div>
+  <h1 class="art-h1">Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice</h1>
+  <p class="art-subtitle">A PPM schedule is not a maintenance plan. It is a document produced to satisfy a contract, an audit, or a handover requirement. The ones that actually work are built differently — and the gap is wider than most clients realise.</p>
+  <div class="art-meta">
+    <div class="am-author">
+      <div class="am-avatar">R</div>
+      <div>
+        <div class="am-name">Raneesh Raveendran</div>
+        <div class="am-role">GCC FM &amp; Community Management · Dubai</div>
+      </div>
+    </div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>April 2026</strong></div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>10</strong> min read</div>
+    <div class="am-sep"></div>
+    <div class="am-item">GCC</div>
+  </div>
+</header>
+
+<div class="art-layout">
+<article class="art-body">
+
+<p>Every FM contract in the GCC includes a Planned Preventive Maintenance schedule. Every RFP asks for one. Every site audit checks for one. Walk into almost any building across Dubai, Abu Dhabi, Riyadh, or Doha — commercial tower, residential community, logistics hub, data centre — and you will find a folder, a spreadsheet, or a CAFM module with a PPM schedule attached to it.</p>
+
+<p>Most of them are fiction.</p>
+
+<p>Not in the sense that they were deliberately falsified — though that happens too. Fiction in the deeper sense: the schedule exists as an administrative artefact, disconnected from the actual physical condition of the assets, the available manpower, the spare parts pipeline, and the real failure patterns of the equipment it claims to maintain.</p>
+
+<p>After twenty years of building, auditing, and inheriting PPM programmes across airports, defence facilities, master communities, data centres, and commercial portfolios in the GCC — the pattern is consistent. The schedule looks right. The execution rate does not survive contact with operational reality. And the client, sitting two management layers above the technician doing the work, has no way to tell the difference until something breaks.</p>
+
+<div class="pull-quote">
+<p>"The PPM schedule is the single most gamed document in GCC facilities management. The gap between what it says and what actually happens is where asset life goes to die."</p>
+<cite>— Raneesh Raveendran, Ground Floor</cite>
+</div>
+
+<div class="stat-row">
+  <div class="stat-box">
+    <div class="stat-num">62%</div>
+    <div class="stat-label">Average PPM completion rate across audited GCC FM contracts</div>
+    <div class="stat-src">Practitioner estimate — GCC FM market</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">3×</div>
+    <div class="stat-label">Higher reactive maintenance cost vs. executed PPM equivalent</div>
+    <div class="stat-src">GCC FM industry benchmarks</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">18 mo</div>
+    <div class="stat-label">Median time before a new PPM schedule diverges significantly from reality</div>
+    <div class="stat-src">Practitioner estimate — GCC FM market</div>
+  </div>
+</div>
+
+<h2 id="r1">Reason 1 — The Schedule Is Built for the Proposal, Not the Building</h2>
+
+<p>The most common origin story for a failing PPM schedule: it was written to win a contract, then handed to an operations team who had no input into it.</p>
+
+<p>In the GCC FM procurement cycle, the PPM schedule is typically submitted as part of the technical proposal. The estimating team, under commercial pressure to produce a competitive bid, builds a schedule based on OEM recommendations — often lifted directly from manufacturer manuals — without ever setting foot in the building, reviewing the as-built drawings, or understanding what equipment is actually installed.</p>
+
+<p>The result: a schedule that is technically correct for a generic version of the asset class, and operationally useless for the specific building it is supposed to serve. Frequencies are copy-pasted. Task durations are theoretical. The manpower assumptions behind the schedule bear no relationship to the headcount the FM company actually mobilises on site.</p>
+
+<div class="callout navy">
+<div class="callout-label">The real number</div>
+<p>On a large residential tower in Dubai, the inherited PPM schedule listed 1,847 annual maintenance tasks across all asset categories. At the mobilised headcount — 4 technicians covering all trades — delivering all tasks at the documented frequencies would require approximately 2,400 man-hours per month. Available capacity: 640 man-hours. The schedule was mathematically impossible before the first technician walked through the door.</p>
+</div>
+
+<p>When the operations team receives a schedule they cannot physically execute, one of two things happens: they attempt to execute it and fail visibly, or they quietly redefine what "completion" means. In practice, it is almost always the latter. Task sign-offs accumulate in the system. The completion rate in the CAFM looks acceptable. The actual condition of the assets does not reflect the schedule at all.</p>
+
+<h2 id="r2">Reason 2 — No Asset Register, No Real Schedule</h2>
+
+<p>A PPM schedule is only as accurate as the asset register it is built on. In most GCC buildings, the asset register is either missing, incomplete, or was last updated at handover — five, eight, ten years ago.</p>
+
+<p>Buildings in the GCC age differently than buildings in temperate climates. Cooling systems run at maximum load for nine months of the year. Facade and waterproofing systems are subject to extreme UV and thermal cycling. MEP infrastructure in master developments was often installed in phases, by multiple contractors, to varying standards. The as-installed condition and the as-documented condition diverge within the first operational cycle.</p>
+
+<table class="data-table">
+<thead><tr><th>Asset Category</th><th>Typical Asset Register Accuracy at Year 5</th><th>Primary Gap</th><th>Maintenance Impact</th></tr></thead>
+<tbody>
+<tr><td>HVAC / Cooling</td><td>55–65%</td><td>Sub-equipment (FCUs, VAVs) under-counted by 20–40%</td><td>Filter / coil servicing missed on unregistered units</td></tr>
+<tr><td>Elevators &amp; Escalators</td><td>80–90%</td><td>Minor — usually covered by OEM contract</td><td>Low — OEM contract fills the gap</td></tr>
+<tr><td>Fire &amp; Life Safety</td><td>60–75%</td><td>Detection zones and sprinkler drops added post-fit-out not updated</td><td>Compliance exposure — Civil Defense audit risk</td></tr>
+<tr><td>Plumbing &amp; Drainage</td><td>40–55%</td><td>Podium / basement infrastructure rarely surveyed post-handover</td><td>Legionella risk, water quality management gaps</td></tr>
+<tr><td>Electrical / LV</td><td>65–75%</td><td>DB schedule drift, tenant modifications not captured</td><td>Load management and testing frequency errors</td></tr>
+<tr><td>Facade &amp; External</td><td>30–50%</td><td>No formal condition survey — visual only at most sites</td><td>Waterproofing and sealant failures go undetected</td></tr>
+</tbody>
+</table>
+
+<p>A PPM schedule built on a 55% accurate asset register will miss, at minimum, 30–40% of maintenance events — not because the FM team failed to execute, but because the schedule did not include those assets in the first place. The result looks like a high completion rate against a fundamentally incomplete scope.</p>
+
+<div class="callout gold">
+<div class="callout-label">The fix</div>
+<p>Before building or inheriting a PPM schedule, conduct a physical asset verification survey. Tag every maintainable asset, confirm installed specifications against OEM documentation, and reconcile against the existing register. Budget AED 15,000–45,000 for a mid-size residential development depending on complexity. This is the single highest-return activity in FM mobilisation — it makes everything downstream more accurate.</p>
+</div>
+
+<h2 id="r3">Reason 3 — Frequencies Are OEM Defaults, Not GCC Operating Realities</h2>
+
+<p>OEM maintenance frequencies are designed for temperate climates, moderate ambient conditions, and average operating hours. The GCC is none of those things.</p>
+
+<p>A chiller system in Dubai runs at 90–100% load for seven to nine months of the year. The OEM manual, written for a European or North American context, recommends annual condenser cleaning. In the Gulf, quarterly cleaning is the minimum for efficient operation — and in dusty environments near construction activity or coastal areas, monthly inspection with cleaning as required is the standard that protects the machine's life.</p>
+
+<p>The same logic applies across asset categories: air handling units accumulate dust at three to four times the rate of equivalent equipment in northern Europe. External waterproofing and sealants degrade faster under UV exposure exceeding 2,200 hours per year. Cooling tower drift eliminators require more frequent inspection due to higher biological load in warm, humid air streams.</p>
+
+<ul>
+  <li>Chiller condenser tube cleaning: OEM recommendation 1× annual. GCC operational reality: 3–4× annual in coastal and dusty environments.</li>
+  <li>AHU filter replacement: OEM recommendation quarterly. GCC reality: monthly in construction-adjacent sites, bi-monthly in established developments.</li>
+  <li>Cooling tower chemical dosing review: OEM recommendation monthly. GCC reality: bi-weekly during summer peak — Legionella risk rises steeply above 37°C ambient.</li>
+  <li>External sealant inspection: OEM recommendation every 3 years. GCC reality: annual inspection with proactive replacement at 5 years, not 10.</li>
+  <li>Generator load bank testing: OEM recommendation 6-monthly. Data centre and critical facility standard: quarterly minimum, monthly preferred for Tier 3 and above.</li>
+</ul>
+
+<p>FM contractors using OEM-default frequencies in the GCC are not maintaining assets — they are running scheduled visits that confirm the asset is still working. The actual degradation happens in the interval between visits that is two to four times longer than the operating environment demands.</p>
+
+<h2 id="r4">Reason 4 — CAFM Systems That Track Completion, Not Condition</h2>
+
+<p>The rise of CAFM (Computer-Aided Facilities Management) platforms in the GCC over the past decade has created an unexpected problem: it has made it easier to disguise a failing PPM programme with an impressive-looking compliance dashboard.</p>
+
+<p>The default metric in almost every CAFM system is task completion rate — the percentage of scheduled work orders that have been signed off within the reporting period. This metric measures process conformance. It does not measure maintenance effectiveness, asset condition, or whether the completed task was executed to the required standard.</p>
+
+<div class="callout gold">
+<div class="callout-label">What 95% PPM completion can mean in practice</div>
+<p>A chiller coil cleaning task is "completed" when the technician marks the work order closed. The work order does not capture: time on task, cleaning method used, fouling level found vs. baseline, or whether the coil was actually cleaned or visually inspected and signed off. A site with a 95% PPM completion rate and zero condition data attached to the completions knows very little about its asset health.</p>
+</div>
+
+<p>This is not a CAFM problem. It is a programme design problem. CAFM platforms can capture condition data, require photographic evidence, enforce step-by-step task procedures, and flag anomalies against baselines. Almost nobody configures them to do this, because doing so requires time, expertise, and a client who is asking for condition data rather than completion rates.</p>
+
+<p>The clients who are asking the right questions are moving from task completion rates to these metrics instead:</p>
+
+<ol class="nl">
+  <li>
+    <span class="nl-num">01</span>
+    <div><div class="nl-title">Mean Time Between Failures (MTBF) by asset category</div><div class="nl-desc">Tracks actual equipment reliability over time. A declining MTBF on a maintained asset is a direct signal that the maintenance programme is not arresting degradation.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">02</span>
+    <div><div class="nl-title">Reactive-to-Planned Maintenance Ratio</div><div class="nl-desc">A well-executed PPM programme targets 70–80% planned, 20–30% reactive. Ratios above 50% reactive indicate the PPM schedule is not functional regardless of what the completion dashboard shows.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">03</span>
+    <div><div class="nl-title">Repeat Fault Rate</div><div class="nl-desc">Percentage of reactive calls that are repeat faults on the same asset within a 90-day window. Above 15% signals a root-cause issue the PPM programme is not addressing.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">04</span>
+    <div><div class="nl-title">First-Time Fix Rate</div><div class="nl-desc">Percentage of reactive calls resolved without returning within 48 hours. Below 75% indicates a skills, spares, or diagnostic capability gap that drives hidden cost into the reactive budget.</div></div>
+  </li>
+</ol>
+
+<h2 id="r5">Reason 5 — Spare Parts Pipelines That Don't Exist</h2>
+
+<p>A PPM task that requires a specific consumable — filter, belt, gasket, dosing chemical, bearing — cannot be executed if that consumable is not on site. In the GCC, where the distribution network for specialist FM spare parts is genuinely thin outside Dubai and Abu Dhabi, this is not an edge case. It is a structural constraint that determines the real-world ceiling of PPM execution.</p>
+
+<p>The standard GCC FM contract structure does not resolve this. The FM company is responsible for the maintenance programme. The material procurement responsibility is often shared, disputed, or ambiguous — sitting in a grey zone between the FM company's operational budget and the client's capital budget, with no pre-approved spend authority for the FM team to act without escalation.</p>
+
+<table class="data-table">
+<thead><tr><th>Scenario</th><th>Standard Contract Outcome</th><th>PPM Impact</th></tr></thead>
+<tbody>
+<tr><td>Chiller filter requires replacement</td><td>FM raises requisition, client approves (3–10 days), procurement orders (7–14 days), delivery (3–7 days)</td><td>Task deferred 2–4 weeks. Scheduled maintenance window missed.</td></tr>
+<tr><td>AHU belt worn, requires replacement</td><td>OEM part on backorder — 6–8 week lead time from Europe</td><td>Task completed with visual inspection only. Condition deteriorates in interval.</td></tr>
+<tr><td>Cooling tower biocide stock depleted</td><td>Procurement approval loop: 5–12 days for unbudgeted spend</td><td>Chemical dosing skipped for 1–2 cycles. Biological load increases. Legionella risk rises.</td></tr>
+<tr><td>Generator air filter requires replacement</td><td>FM completes visual, marks task done. Part on order.</td><td>Completion rate shows 100%. Asset operating outside spec.</td></tr>
+</tbody>
+</table>
+
+<p>The FM companies that execute PPM programmes well do not rely on reactive procurement. They maintain a pre-approved, site-specific spare parts inventory — funded from the maintenance budget, verified against the asset register, and refreshed on a rolling cycle. The initial inventory build typically costs AED 25,000–80,000 depending on portfolio size. It is the single operational investment that has the most direct impact on PPM execution rates.</p>
+
+<h2 id="r6">Reason 6 — Manpower Planning That Ignores Real Scheduling Constraints</h2>
+
+<p>The GCC FM workforce operates under constraints that are invisible in a scheduling spreadsheet: visa processing timelines, annual leave cycles concentrated around Eid and summer school calendars, the practical loss of productivity during Ramadan working hours, and the operational reality that a single-trade technician cannot execute multi-trade PPM tasks regardless of what the schedule assumes.</p>
+
+<p>A PPM schedule that distributes tasks evenly across twelve months — the default in every CAFM template — will fail in a GCC context because February, June, and October are not operationally equivalent months. June through August is peak cooling load — technicians are running reactive calls on overtaxed HVAC equipment. March is often a compressed month with accommodation transitions. Ramadan shifts the effective working day by two to three hours.</p>
+
+<div class="callout navy">
+<div class="callout-label">What the schedule doesn't see</div>
+<p>On a master community portfolio in Abu Dhabi, a PPM audit revealed that 34% of annual deferred tasks had slipped into Q4 — not from negligence, but because the scheduling system had distributed summer-period HVAC tasks evenly without accounting for the fact that those same technicians were on reactive standby during peak cooling months. The schedule was mathematically correct. It had no relationship with how a GCC FM team actually operates from June to September.</p>
+</div>
+
+<p>Effective PPM scheduling in the GCC requires weighted monthly planning — front-loading spring and autumn windows for tasks that cannot be safely or practically executed during peak summer, and protecting the reactive capacity of the HVAC team from June to September by deliberately reducing their planned maintenance load and building float into the annual schedule.</p>
+
+<h2 id="r7">Reason 7 — No Formal Review Cycle</h2>
+
+<p>The final and most systemic failure: the PPM schedule is written at contract mobilisation and never formally reviewed. It runs on autopilot for the duration of the contract — typically three to five years — regardless of what changes in the building, the asset base, the operating profile, or the maintenance findings from year one and two.</p>
+
+<p>A schedule that was accurate at mobilisation will diverge from operational reality within 18 months in most GCC buildings. New tenants modify electrical loads. Fit-out works alter ventilation zones. Major equipment is replaced with different specifications. Building occupancy patterns change. None of this is captured in the original PPM schedule unless there is a formal mechanism to review and update it.</p>
+
+<div class="callout green">
+<div class="callout-label">The minimum viable review cycle</div>
+<p>A functioning PPM programme requires three review touchpoints: a 90-day post-mobilisation review to reconcile the schedule against the verified asset register; a six-month operational review to adjust frequencies based on first-cycle findings; and an annual review that incorporates reactive maintenance data, condition survey results, and any building modifications. Clients who build this into the FM contract as a deliverable — not an aspiration — get materially better outcomes.</p>
+</div>
+
+<h2 id="fix">What a Functioning PPM Programme Actually Looks Like</h2>
+
+<p>The gap between a compliant PPM schedule and an effective one is not about technology, software platforms, or contractor selection. It is about design intent. The schedule either exists to satisfy a requirement, or it exists to protect assets. The two are not automatically the same thing.</p>
+
+<p>In twenty years, the characteristics of PPM programmes that actually work — the ones that hold completion rates above 85%, maintain reactive ratios below 30%, and generate measurable asset life extension — are consistent regardless of building type or location:</p>
+
+<ul class="nl">
+  <li>
+    <span class="nl-num">01</span>
+    <div><div class="nl-title">Built on a physically verified asset register</div><div class="nl-desc">Not the handover documentation. A boots-on-ground survey with tagged assets, confirmed specifications, and reconciled quantities. Done before the first task is scheduled.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">02</span>
+    <div><div class="nl-title">Frequencies calibrated to GCC operating conditions</div><div class="nl-desc">OEM defaults as a floor, not a ceiling. Adjusted for ambient temperatures, operating hours, dust exposure, and the specific failure history of the asset class in the local context.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">03</span>
+    <div><div class="nl-title">Manpower-balanced against available capacity</div><div class="nl-desc">Total task hours in the schedule must be achievable with the contracted headcount. Seasonally weighted to protect reactive capacity during peak HVAC months.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">04</span>
+    <div><div class="nl-title">Condition data collected at task completion</div><div class="nl-desc">Not just sign-off — fouling level, operating parameters, anomalies. Photographs for critical assets. Enough data to show trend, not just presence.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">05</span>
+    <div><div class="nl-title">Spare parts inventory pre-positioned and pre-approved</div><div class="nl-desc">Consumables for the first annual cycle on site before mobilisation. Spend authority pre-approved for replenishment below a defined threshold.</div></div>
+  </li>
+  <li>
+    <span class="nl-num">06</span>
+    <div><div class="nl-title">Formally reviewed at 90 days, 6 months, and annually</div><div class="nl-desc">Reviewed, revised, and signed off by client and FM team. Not an email. A documented update to the programme with tracked changes.</div></div>
+  </li>
+</ul>
+
+<p>None of this is complicated. All of it requires deliberate choices — in contract design, in mobilisation planning, in how the client defines performance. The 80% that fail do so because nobody in the procurement process insisted on these conditions before the contract was signed.</p>
+
+<div class="art-end-cta">
+  <div class="aec-label">PPM Suite — Ground Floor</div>
+  <div class="aec-title">Build a PPM programme that actually runs</div>
+  <div class="aec-body">The PPM Suite provides asset-verified scheduling templates calibrated for GCC operating conditions — with manpower planning tools, spare parts inventory frameworks, and the review cycle documentation that turns a paper schedule into a working maintenance programme.</div>
+  <a href="https://groundfloor.raneesh.net/#advisory" class="aec-btn">Get the PPM Suite →</a>
+</div>
+
+<div class="art-tags">
+  <span class="tag-chip">PPM</span>
+  <span class="tag-chip">FM Operations</span>
+  <span class="tag-chip">CAFM</span>
+  <span class="tag-chip">Asset Management</span>
+  <span class="tag-chip">GCC</span>
+  <span class="tag-chip">Dubai</span>
+  <span class="tag-chip">Maintenance Strategy</span>
+</div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="art-sidebar">
+
+  <div class="toc-card">
+    <div class="toc-label">In this article</div>
+    <ul class="toc-list" id="toc">
+      <li><a href="#r1">Built for the proposal, not the building</a></li>
+      <li><a href="#r2">No asset register, no real schedule</a></li>
+      <li><a href="#r3">OEM frequencies vs. GCC reality</a></li>
+      <li><a href="#r4">CAFM tracks completion, not condition</a></li>
+      <li><a href="#r5">Spare parts pipelines that don't exist</a></li>
+      <li><a href="#r6">Manpower planning gaps</a></li>
+      <li><a href="#r7">No formal review cycle</a></li>
+      <li><a href="#fix">What a working programme looks like</a></li>
+    </ul>
+  </div>
+
+  <div class="prod-card">
+    <div class="prod-label">Ground Floor Tool</div>
+    <div class="prod-title">PPM Suite</div>
+    <div class="prod-desc">A structured toolkit for building PPM programmes that survive contact with GCC operational reality — asset register templates, frequency calibration guides, manpower calculators, and review cycle frameworks.</div>
+    <ul class="prod-features">
+      <li>Asset verification survey template</li>
+      <li>GCC-calibrated frequency reference guide</li>
+      <li>Manpower capacity calculator</li>
+      <li>Spare parts inventory starter pack</li>
+      <li>90-day / 6-month / annual review templates</li>
+    </ul>
+    <a href="https://groundfloor.raneesh.net/#advisory" class="prod-btn">Request Access →</a>
+  </div>
+
+  <div class="sub-card">
+    <div class="sub-title">Ground Floor</div>
+    <div class="sub-desc">Wisdom, knowledge, and proven systems — extended freely to every FM practitioner, operator, and builder who deserves better than guesswork.</div>
+    <div class="sub-form">
+      <input type="email" id="sub-email" placeholder="your@email.com">
+      <button onclick="handleSubscribe()">Subscribe</button>
+      <div class="sub-success" id="sub-ok">✓ You're in. New articles direct to your inbox.</div>
+    </div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-top">
+      <div class="auth-avatar">R</div>
+      <div>
+        <div class="auth-name">Raneesh Raveendran</div>
+        <div class="auth-role">GCC FM · 20 Years</div>
+      </div>
+    </div>
+    <div class="auth-bio">20+ years across airports, data centres, defence, master communities, and commercial portfolios. Extending hard-won knowledge and proven systems to every FM practitioner, procedure, and process that needs it.</div>
+    <a href="https://linkedin.com/in/raneesh-raveendran" class="auth-link" target="_blank">Connect on LinkedIn →</a>
+  </div>
+
+</aside>
+</div>
+
+<!-- RELATED -->
+<section class="related">
+  <div class="related-label">Continue reading</div>
+  <div class="related-grid">
+    <a href="oa-governance-mistakes.html" class="rel-card">
+      <div class="rc-pillar">OA Governance</div>
+      <div class="rc-title">The 7 Governance Mistakes Most Dubai OA Boards Make — And How to Fix Them</div>
+      <div class="rc-meta">March 2026 · 9 min</div>
+    </a>
+    <a href="fm-contractor-cost.html" class="rel-card">
+      <div class="rc-pillar">FM Procurement</div>
+      <div class="rc-title">The Real Cost of Appointing the Wrong FM Contractor — With Numbers From the GCC</div>
+      <div class="rc-meta">April 2026 · 9 min</div>
+    </a>
+    <a href="pre-handover-fm.html" class="rel-card">
+      <div class="rc-pillar">Pre-Handover</div>
+      <div class="rc-title">Before You Hand Over the Keys: What 90% of GCC Developers Miss in Pre-Handover FM Planning</div>
+      <div class="rc-meta">May 2026 · 10 min</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="https://groundfloor.raneesh.net/" class="footer-brand">Ground<span>·Floor</span></a>
+      <div class="footer-tagline">WISDOM EXTENDED. KNOWLEDGE SHARED. PEOPLE UPLIFTED. · BY RANEESH RAVEENDRAN</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://groundfloor.raneesh.net">All Articles</a>
+      <a href="https://groundfloor.raneesh.net/#advisory">Advisory</a>
+      <a href="https://raneesh.net">raneesh.net</a>
+      <a href="https://linkedin.com/in/raneesh-raveendran" target="_blank">LinkedIn</a>
+    </div>
+    <div class="footer-copy">© 2026 Raneesh Raveendran. All rights reserved. GCC FM intelligence.</div>
+  </div>
+</footer>
+
+<div class="scroll-top" id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+// Progress bar
+const pb = document.getElementById('pb');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  pb.style.width = pct + '%';
+  document.getElementById('stb').classList.toggle('visible', h.scrollTop > 400);
+});
+
+// TOC active highlight
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── Supabase config ─────────────────────────────────────────────
+const SUPABASE_URL      = 'https://ecpcbumcqzsgrknmwwaq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjcGNidW1jcXpzZ3Jrbm13d2FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NjMyNzksImV4cCI6MjA5MzMzOTI3OX0.rRJTZYkpcDKMYS5Oh5b17Uj1GW45P4Qwza0P_yLmWXI';
+
+// Subscribe
+async function handleSubscribe() {
+  const el  = document.getElementById('sub-email');
+  const btn = document.querySelector('.sub-form button');
+  const email = el.value.trim();
+  if (!email || !email.includes('@')) return;
+
+  const origText = btn.textContent;
+  btn.textContent = 'Subscribing…';
+  btn.disabled = true;
+
+  const params = new URLSearchParams(window.location.search);
+  const payload = {
+    email,
+    source:       'ground_floor',
+    source_page:  window.location.pathname,
+    referrer:     document.referrer || null,
+    utm_source:   params.get('utm_source')   || null,
+    utm_campaign: params.get('utm_campaign') || null,
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok || res.status === 409) {
+      document.getElementById('sub-ok').style.display = 'block';
+      el.value = '';
+    } else { throw new Error('non-2xx'); }
+  } catch (_) {
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+  }
+}
+
+// Share
+function shareArticle() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link copied to clipboard');
+  }
+}
+</script>
+</body>
+</html>

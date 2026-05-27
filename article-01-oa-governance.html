@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 7 Governance Mistakes Most Dubai OA Boards Make — Ground Floor</title>
+<meta name="description" content="RERA sets the framework. Most OA boards in Dubai ignore it — not out of intent, but because nobody in the industry has a commercial interest in explaining it clearly.">
+<meta name="author" content="Raneesh Raveendran">
+<meta property="og:title" content="The 7 Governance Mistakes Most Dubai OA Boards Make">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://groundfloor.raneesh.net/oa-governance-mistakes">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0WYXB77BGJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0WYXB77BGJ');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#071728;--navy-mid:#0E2640;--navy-light:#163352;
+  --gold:#C8973C;--gold-light:#E4B96A;--gold-pale:#F5E6CC;
+  --cream:#FAF7F2;--white:#FFFFFF;
+  --text:#0E1C2B;--text-mid:#3D5168;--text-muted:#7A8FA8;
+  --border:#D6CCBA;--border-light:#EDE8DF;
+  --fd:'Playfair Display',Georgia,serif;
+  --fb:'Outfit',sans-serif;--fm:'Roboto Mono',monospace;
+  --r:8px;--rl:14px;--tr:.2s ease;--max:1100px;--aw:680px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--fb);background:var(--cream);color:var(--text);line-height:1.7;font-size:16px}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border-light)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:58px;display:flex;align-items:center;gap:12px}
+.nav-brand{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:baseline;gap:1px}
+.nav-brand .dot{color:var(--gold);font-size:22px;line-height:0;vertical-align:-4px}
+.nav-back{font-family:var(--fm);font-size:11px;letter-spacing:.06em;color:var(--text-muted);padding:5px 10px;border:1px solid var(--border-light);border-radius:var(--r);transition:all var(--tr)}
+.nav-back:hover{color:var(--text-mid);border-color:var(--border)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.progress-wrap{width:100px;height:2px;background:var(--border-light);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;background:var(--gold);width:0%;transition:width .1s}
+.share-btn{font-family:var(--fm);font-size:11px;letter-spacing:.05em;color:var(--text-muted);padding:6px 12px;border:1px solid var(--border-light);border-radius:var(--r);cursor:pointer;background:transparent;transition:all var(--tr)}
+.share-btn:hover{color:var(--gold);border-color:var(--gold)}
+.nav-cta{font-family:var(--fb);font-size:12px;font-weight:600;color:var(--white);background:var(--navy);padding:7px 16px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.nav-cta:hover{background:var(--navy-mid)}
+
+/* ARTICLE HEADER */
+.art-header{max-width:var(--aw);margin:0 auto;padding:60px 28px 44px}
+.art-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.art-pillar::before{content:'';display:block;width:20px;height:2px;background:var(--gold)}
+.art-h1{font-family:var(--fd);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.5px;color:var(--navy);margin-bottom:16px}
+.art-subtitle{font-family:var(--fd);font-size:18px;font-style:italic;font-weight:400;color:var(--text-muted);line-height:1.55;margin-bottom:28px}
+.art-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--border-light)}
+.am-author{display:flex;align-items:center;gap:10px}
+.am-avatar{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.am-name{font-size:13px;font-weight:600;color:var(--navy)}
+.am-role{font-family:var(--fm);font-size:10px;letter-spacing:.05em;color:var(--text-muted)}
+.am-sep{width:1px;height:24px;background:var(--border-light)}
+.am-item{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted)}
+.am-item strong{color:var(--text-mid)}
+
+/* LAYOUT */
+.art-layout{max-width:var(--max);margin:0 auto;padding:0 28px 80px;display:grid;grid-template-columns:var(--aw) 1fr;gap:56px;align-items:start}
+
+/* ARTICLE BODY */
+.art-body h2{font-family:var(--fd);font-size:24px;font-weight:700;letter-spacing:-.3px;color:var(--navy);margin:40px 0 14px;line-height:1.2}
+.art-body h3{font-family:var(--fd);font-size:18px;font-weight:600;color:var(--navy);margin:28px 0 10px}
+.art-body p{color:var(--text-mid);margin-bottom:18px;font-size:16px;line-height:1.8}
+.art-body p strong{color:var(--text);font-weight:600}
+.art-body ul,.art-body ol{color:var(--text-mid);padding-left:22px;margin-bottom:18px}
+.art-body li{margin-bottom:8px;line-height:1.7}
+
+/* Pull quote */
+.pull-quote{border-left:3px solid var(--gold);padding:20px 24px;margin:32px 0;background:rgba(200,151,60,.05);border-radius:0 var(--r) var(--r) 0}
+.pull-quote p{font-family:var(--fd);font-size:19px;font-style:italic;color:var(--navy);line-height:1.5;margin-bottom:8px}
+.pull-quote cite{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase}
+
+/* Callout */
+.callout{border-radius:var(--r);padding:20px 22px;margin:24px 0}
+.callout.gold{background:rgba(200,151,60,.07);border:1px solid rgba(200,151,60,.25)}
+.callout.navy{background:rgba(7,23,40,.05);border:1px solid rgba(7,23,40,.15)}
+.callout.green{background:rgba(16,163,127,.06);border:1px solid rgba(16,163,127,.2)}
+.callout-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.callout.navy .callout-label{color:var(--navy)}
+.callout.green .callout-label{color:#0f8f6e}
+.callout p{margin-bottom:0;font-size:14px;line-height:1.7}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+.data-table th{text-align:left;padding:10px 14px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--border);background:var(--white)}
+.data-table td{padding:11px 14px;color:var(--text-mid);border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.55}
+.data-table td:first-child{font-weight:600;color:var(--navy)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(200,151,60,.03)}
+
+/* Numbered list */
+.nl{list-style:none;padding:0;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+.nl li{display:grid;grid-template-columns:44px 1fr;gap:0 14px;align-items:start;padding:16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--r)}
+.nl-num{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--border);line-height:1;padding-top:2px}
+.nl-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.nl-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+/* Tags */
+.art-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border-light)}
+.tag-chip{font-family:var(--fm);font-size:10px;letter-spacing:.07em;color:var(--text-muted);border:1px solid var(--border);background:var(--white);padding:4px 12px;border-radius:100px}
+
+/* End CTA */
+.art-end-cta{background:var(--navy);border-radius:var(--rl);padding:32px 28px;margin-top:40px;position:relative;overflow:hidden}
+.art-end-cta::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:radial-gradient(circle,rgba(200,151,60,.2) 0%,transparent 70%);border-radius:50%}
+.aec-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.aec-title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--white);margin-bottom:10px}
+.aec-body{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:18px}
+.aec-btn{display:inline-block;background:var(--gold);color:var(--navy);font-family:var(--fb);font-size:13px;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:background var(--tr)}
+.aec-btn:hover{background:var(--gold-light)}
+
+/* SIDEBAR */
+.art-sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:16px}
+.toc-card,.prod-card,.sub-card,.auth-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px}
+.toc-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.toc-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:2px}
+.toc-list a{font-size:12px;color:var(--text-muted);padding:5px 8px;border-radius:6px;display:block;transition:all var(--tr);border-left:2px solid transparent}
+.toc-list a:hover{color:var(--navy);background:var(--cream)}
+.toc-list a.active{color:var(--gold);border-left-color:var(--gold);background:rgba(200,151,60,.05)}
+.prod-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.prod-title{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.prod-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.prod-features{list-style:none;padding:0;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.prod-features li{font-size:12px;color:var(--text-mid);padding-left:14px;position:relative;line-height:1.5}
+.prod-features li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:11px}
+.prod-btn{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:700;color:var(--navy);background:var(--gold);padding:10px;border-radius:var(--r);transition:background var(--tr)}
+.prod-btn:hover{background:var(--gold-light)}
+.sub-title{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sub-desc{font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.sub-form input[type="email"]{width:100%;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;color:var(--text);font-size:13px;font-family:var(--fb);outline:none;margin-bottom:7px;transition:border-color var(--tr)}
+.sub-form input:focus{border-color:var(--gold)}
+.sub-form button{width:100%;background:var(--navy);color:var(--white);font-family:var(--fb);font-size:12px;font-weight:700;padding:9px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.sub-form button:hover{background:var(--navy-mid)}
+.sub-success{display:none;font-size:12px;font-weight:600;color:#0f8f6e;background:rgba(16,163,127,.08);border:1px solid rgba(16,163,127,.2);border-radius:var(--r);padding:8px;margin-top:6px;text-align:center}
+.auth-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.auth-avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:700;color:var(--gold);flex-shrink:0}
+.auth-name{font-size:13px;font-weight:600;color:var(--navy)}
+.auth-role{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+.auth-bio{font-size:12px;color:var(--text-muted);line-height:1.65;margin-bottom:12px}
+.auth-link{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--gold);padding:8px;border:1px solid rgba(200,151,60,.3);border-radius:var(--r);transition:all var(--tr);background:rgba(200,151,60,.05)}
+.auth-link:hover{background:var(--gold);color:var(--navy)}
+
+/* RELATED */
+.related{border-top:1px solid var(--border-light);padding:48px 28px 64px;max-width:var(--max);margin:0 auto}
+.related-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.rel-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px;cursor:pointer;transition:all var(--tr)}
+.rel-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.rc-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.rc-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:8px}
+.rc-meta{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border-light);background:var(--cream)}
+.footer-inner{max-width:var(--max);margin:0 auto;padding:28px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy)}
+.footer-brand span{color:var(--gold);font-style:italic}
+.footer-tagline{font-family:var(--fm);font-size:9px;letter-spacing:.08em;color:var(--text-muted);margin-top:2px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted);transition:color var(--tr)}
+.footer-links a:hover{color:var(--text-mid)}
+.footer-copy{font-family:var(--fm);font-size:10px;letter-spacing:.03em;color:var(--text-muted);width:100%;padding-top:14px;border-top:1px solid var(--border-light);margin-top:6px}
+.scroll-top{position:fixed;bottom:24px;right:24px;width:36px;height:36px;background:var(--navy);color:var(--gold);border-radius:var(--r);font-family:var(--fm);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity var(--tr);z-index:100}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+
+@media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}}
+@media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="https://groundfloor.raneesh.net" class="nav-brand">Ground<span class="dot">·</span>Floor</a>
+    <a href="https://groundfloor.raneesh.net" class="nav-back">← All Articles</a>
+    <div class="nav-right">
+      <div class="progress-wrap"><div class="progress-bar" id="pb"></div></div>
+      <button class="share-btn" onclick="shareArticle()">Share ↗</button>
+      <button class="nav-cta" onclick="document.getElementById('sub-email').focus()">Subscribe</button>
+    </div>
+  </div>
+</nav>
+
+<header class="art-header">
+  <div class="art-pillar">OA Governance</div>
+  <h1 class="art-h1">The 7 Governance Mistakes Most Dubai OA Boards Make — And How to Fix Them</h1>
+  <p class="art-subtitle">RERA sets the framework. Most boards ignore it — not out of intent, but because nobody in the industry has a commercial interest in explaining it clearly.</p>
+  <div class="art-meta">
+    <div class="am-author">
+      <div class="am-avatar">R</div>
+      <div>
+        <div class="am-name">Raneesh Raveendran</div>
+        <div class="am-role">GCC FM &amp; Community Management · Dubai</div>
+      </div>
+    </div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>March 2026</strong></div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>9</strong> min read</div>
+    <div class="am-sep"></div>
+    <div class="am-item">Dubai, UAE</div>
+  </div>
+</header>
+
+<div class="art-layout">
+<article class="art-body">
+
+<p>In twenty years of managing communities across the GCC — premium master communities, gated residential developments, mid-market towers across Dubai and Abu Dhabi — I have sat across from hundreds of OA board members. Developers, investors, end-users who stepped into a governance role they never applied for. People who genuinely want their community to run well.</p>
+
+<p>Most of them are operating without a functional understanding of their own legal framework. Not from incompetence. From a structural information gap that nobody in the industry is interested in closing — because confusion keeps consultants, managing agents, and FM companies in a position of permanent authority over the people who are, legally speaking, the clients.</p>
+
+<p>RERA's framework is specific. <strong>Law No. 6 of 2019 (the Strata Law)</strong> and its implementing regulations define the OA's rights, obligations, budget methodology, reserve fund requirements, and governance procedures in clear terms. What's missing is a plain-language translation of what it means for a board sitting in a conference room trying to understand why their service charge keeps rising and their building keeps deteriorating.</p>
+
+<p>This article provides that translation — built on 20 years of watching the same seven mistakes repeat across communities of every tier and size.</p>
+
+<div class="pull-quote">
+<p>"The OA board's job is governance — not operations. The moment a board starts doing the FM company's job, two things fail simultaneously: the governance, and the FM."</p>
+<cite>— Raneesh Raveendran, Ground Floor</cite>
+</div>
+
+<h2 id="m1">Mistake 1 — Treating the FM Company as the Authority, Not the Contractor</h2>
+
+<p>The most consistent structural error: OA boards defer to the FM company on decisions that are the board's legal responsibility. Budget approvals. Major repair decisions. Reserve fund allocations. Contractor selections. These are not FM company decisions.</p>
+
+<p>Under RERA's framework, the FM company manages the property on behalf of the OA. The OA is the client and the governing authority. The FM company is a service provider — with a contract, deliverables, and accountability to the board. When those lines blur, the FM company fills the authority vacuum, and the direction it fills it is rarely aligned with the OA's financial interests.</p>
+
+<p>This mistake is self-reinforcing. Once a board defers on major decisions, the FM company's reporting is designed to maintain that deference rather than build the board's capability. Boards that have been operating this way for two or three years often can't read their own financial reports without help from the company producing them.</p>
+
+<div class="callout gold">
+<div class="callout-label">The fix</div>
+<p>Define the FM company's authority in writing — in the management contract, not verbally. Every decision category above a threshold (typically AED 5,000–10,000 for unbudgeted spend) requires explicit board approval. Build a decision authority matrix in year one. Enforce it from day one of the management relationship.</p>
+</div>
+
+<h2 id="m2">Mistake 2 — A Reserve Fund That Exists on Paper Only</h2>
+
+<p>RERA requires OAs to maintain a reserve fund for major repairs and asset replacements. The calculation methodology is documented in the regulatory framework. Most boards either omit the reserve fund entirely from their service charge budget, or fund it at a nominal level that bears no relationship to the actual capital expenditure the building will require.</p>
+
+<p>The financial exposure becomes visible only when a major asset failure occurs. At that point, the board has three choices: special levy on residents, deferred repair (compounding the problem), or drawing down from operational reserves and creating a cash-flow crisis. All three are avoidable.</p>
+
+<table class="data-table">
+<thead><tr><th>Asset</th><th>Typical Replacement Cost (Dubai)</th><th>Asset Life</th><th>Annual Reserve Required (500 units)</th></tr></thead>
+<tbody>
+<tr><td>District Cooling / Chiller Plant</td><td>AED 1.2M – 3M</td><td>15–20 years</td><td>AED 80K – 200K</td></tr>
+<tr><td>Elevators (per cab)</td><td>AED 250K – 500K</td><td>20–25 years</td><td>AED 10K – 25K per cab</td></tr>
+<tr><td>Pool Deck Waterproofing</td><td>AED 300K – 700K</td><td>8–12 years</td><td>AED 35K – 85K</td></tr>
+<tr><td>Façade / External Cladding</td><td>AED 800K – 2M+</td><td>15–20 years</td><td>AED 50K – 130K</td></tr>
+<tr><td>Generator Overhaul</td><td>AED 150K – 400K</td><td>12–15 years</td><td>AED 12K – 35K</td></tr>
+<tr><td>BMS / SCADA Systems</td><td>AED 200K – 500K</td><td>10–15 years</td><td>AED 18K – 50K</td></tr>
+</tbody>
+</table>
+
+<p>A mid-size community running zero reserve fund is carrying an unfunded liability of <strong>AED 2.5M – 6M+</strong> in predictable future capital expenditure. This is not a risk. It is a scheduled cost with a known arrival window.</p>
+
+<ul class="nl">
+<li><div class="nl-num">01</div><div><div class="nl-title">Commission a Reserve Fund Study</div><div class="nl-desc">A qualified FM consultant assesses each major asset, its condition, remaining service life, and current replacement cost. This is the foundation of your reserve calculation — not an optional exercise.</div></div></li>
+<li><div class="nl-num">02</div><div><div class="nl-title">Calculate the Annual Contribution Per Unit</div><div class="nl-desc">Sum of (replacement cost ÷ remaining asset life) across all assets = total annual reserve requirement. Divide by unit count weighted by share value to get per-unit contribution.</div></div></li>
+<li><div class="nl-num">03</div><div><div class="nl-title">Segregate the Reserve Account</div><div class="nl-desc">Reserve funds must sit in a separate, designated account from operational funds. This is a RERA requirement — not a best practice recommendation. Commingled funds are a compliance exposure.</div></div></li>
+</ul>
+
+<h2 id="m3">Mistake 3 — Service Charge Budgets Built Backwards</h2>
+
+<p>The standard budget process in most Dubai OA communities: the managing agent proposes a number, the board negotiates it down to something residents will accept, and that becomes the service charge. The starting point is political acceptability, not operational requirement.</p>
+
+<p>The gap between what residents will accept and what the building actually costs to maintain — at code-compliant, asset-preserving standard — is where deferred maintenance lives. And deferred maintenance is not a static cost. It compounds.</p>
+
+<p>A failed HVAC coil that costs AED 8,000 to replace becomes a chiller overhaul at AED 280,000 when the consequential damage is factored in. A leaking façade joint that costs AED 12,000 to remediate becomes AED 900,000 in structural water damage remediation over five years. Every budget shortfall is a future emergency with a larger price tag.</p>
+
+<div class="callout navy">
+<div class="callout-label">The right sequence</div>
+<p>Budget from requirements, not from acceptability. Build the operational budget from contracted service costs, PPM schedules, and reserve contributions. Present the resulting service charge to residents with full cost transparency and justification. Residents accept under-funded budgets until a major failure hits — then they look for accountability.</p>
+</div>
+
+<h2 id="m4">Mistake 4 — AGMs Without Quorum, and What That Means for Resolutions</h2>
+
+<p>RERA's framework specifies quorum requirements for OA general meetings. Major decisions — annual budget approval, special levies, significant contract awards, amendments to community rules — require a qualified majority of unit owners present or represented by proxy.</p>
+
+<p>Most Dubai OA AGMs I have observed have quorum problems. Attendance is low. Proxies are not properly collected. Boards proceed with the meeting, pass the resolutions, and record them as valid. They are legally challengeable.</p>
+
+<p>A unit owner who later disputes a special levy, a budget increase, or a contractor appointment has standing to challenge a resolution passed without proper quorum. The exposure is real and has been exercised in Dubai disputes. Every resolution passed in a defective AGM is a contingent liability on the OA's financial position.</p>
+
+<div class="callout gold">
+<div class="callout-label">The fix</div>
+<p>Send AGM notices with proxy forms 21+ days in advance. Follow up directly with absent unit owners. If quorum isn't achieved at the first meeting, RERA's regulations provide for reconvened meetings. Document every attendance record and proxy instrument. This is not administrative overhead — it is legal protection for every decision the board makes.</p>
+</div>
+
+<h2 id="m5">Mistake 5 — No Contractor Performance Framework</h2>
+
+<p>Most GCC FM contracts are awarded on bid price. Managed on relationship. Renewed on inertia. In twenty years, I have not seen a single community where this approach consistently produces good operational outcomes.</p>
+
+<p>The absence of a performance framework means there is no objective basis for: holding the FM company accountable for service failures, applying contractual penalties for missed SLAs, making a fact-based case for contract termination, or running a competitive re-tender with evidence-backed specifications.</p>
+
+<p>Without a performance framework, the FM company's incentive is to satisfy the relationship, not the contract. Those are not the same thing.</p>
+
+<table class="data-table">
+<thead><tr><th>KPI Category</th><th>Metric</th><th>Minimum Standard</th><th>Measurement Frequency</th></tr></thead>
+<tbody>
+<tr><td>Reactive Response</td><td>Priority 1 (life safety) response time</td><td>&lt; 15 minutes</td><td>Monthly from CAFM data</td></tr>
+<tr><td>Reactive Response</td><td>Priority 2 (critical) resolution time</td><td>&lt; 4 hours</td><td>Monthly from CAFM data</td></tr>
+<tr><td>PPM Completion</td><td>Planned maintenance completion rate</td><td>&gt; 95% on schedule</td><td>Monthly</td></tr>
+<tr><td>Resident Satisfaction</td><td>Quarterly survey score</td><td>&gt; 75% satisfaction</td><td>Quarterly</td></tr>
+<tr><td>Financial</td><td>Variance from approved budget</td><td>&lt; 5% without prior approval</td><td>Monthly</td></tr>
+<tr><td>Compliance</td><td>Statutory inspection completion</td><td>100% on time</td><td>Per inspection schedule</td></tr>
+</tbody>
+</table>
+
+<h2 id="m6">Mistake 6 — Mixing Governance and Operations in Resident Communication</h2>
+
+<p>When residents contact board members directly about broken lights, parking disputes, pool temperature, or cleaning standards, the board has allowed itself to become an operational escalation channel. This breaks two things simultaneously.</p>
+
+<p>First, the FM company loses accountability. If residents bypass the helpdesk and go directly to board members, the FM company never receives the service request in a trackable form. The job gets done informally, without a work order, without a record, and without counting against the FM company's SLA performance data. The FM company looks better on paper than it is in practice.</p>
+
+<p>Second, the board's credibility erodes. When the board can't resolve the issue as fast as the resident expects — because the board is not an operations function — the resident concludes the board is ineffective. The problem is structural, not individual.</p>
+
+<div class="callout gold">
+<div class="callout-label">The fix</div>
+<p>Establish and enforce a single contact protocol. All operational matters → FM helpdesk (logged, tracked, SLA-governed). All governance matters → formal written communication to the board secretary. Publish this protocol to residents at the start of each year and every time a new resident joins. The board's job is to review FM performance data quarterly — not to manage individual service requests.</p>
+</div>
+
+<h2 id="m7">Mistake 7 — Accepting Handover Without Knowing What You're Taking On</h2>
+
+<p>When a community transitions from developer to OA management — often two to five years after construction — the quality of the handover determines the operational reality of the next decade. Most OA boards accept handover without a checklist, without a due diligence process, and without understanding what they should be asking for.</p>
+
+<p>The result: inherited defects become the OA's repair liability. Missing warranties become the OA's replacement cost. Incomplete as-built drawings make future maintenance work more expensive. Undefined snag lists mean developer obligations that expire unresolved.</p>
+
+<table class="data-table">
+<thead><tr><th>Handover Document</th><th>Why It Matters</th><th>What Happens Without It</th></tr></thead>
+<tbody>
+<tr><td>As-Built Drawings</td><td>Required for any major maintenance, repair, or upgrade work</td><td>Every contractor starts from zero — costs 25–40% more, takes longer</td></tr>
+<tr><td>Equipment Warranties</td><td>Manufacturer warranty typically 1–5 years on major plant</td><td>OA pays for repairs that are the developer's or manufacturer's liability</td></tr>
+<tr><td>PPM Records (commissioning period)</td><td>Establishes equipment baseline condition and service history</td><td>No benchmark for fault diagnosis; higher maintenance costs</td></tr>
+<tr><td>Snag List (signed off)</td><td>Documents outstanding defects the developer must remediate</td><td>Defects become OA's repair liability after developer's obligation period expires</td></tr>
+<tr><td>O&amp;M Manuals</td><td>Provides operating parameters, service intervals, troubleshooting</td><td>FM technicians operate equipment outside parameters — accelerated wear</td></tr>
+<tr><td>Insurance Certificates</td><td>Confirms all-risk/public liability coverage during handover period</td><td>Coverage gaps between developer and OA insurance periods</td></tr>
+</tbody>
+</table>
+
+<div class="callout green">
+<div class="callout-label">Bottom line</div>
+<p>Every mistake on this list is structural, not exceptional. They appear in luxury communities and mid-market ones. In communities with professional managing agents and in self-managed ones. The governance framework exists — what's missing is the operating knowledge to apply it. That's what this publication exists to provide.</p>
+</div>
+
+<div class="art-tags">
+<span class="tag-chip">OA Governance</span><span class="tag-chip">RERA</span><span class="tag-chip">Dubai Communities</span><span class="tag-chip">Reserve Fund</span><span class="tag-chip">Service Charge</span><span class="tag-chip">Strata Law</span><span class="tag-chip">Community Management</span>
+</div>
+
+<div class="art-end-cta">
+<div class="aec-label">Work with Raneesh</div>
+<div class="aec-title">OA Governance Review</div>
+<div class="aec-body">If your board is navigating any of these issues — reserve fund gaps, service charge disputes, FM contractor performance, handover disputes — I'm available for a structured governance review. Delivered as a written assessment with prioritised recommendations.</div>
+<a href="https://www.raneesh.net/#contact" class="aec-btn">Get in Touch →</a>
+</div>
+
+</article>
+
+<aside class="art-sidebar">
+<div class="toc-card">
+<div class="toc-label">In this article</div>
+<ul class="toc-list">
+<li><a href="#m1">1. FM Company vs. Authority</a></li>
+<li><a href="#m2">2. Reserve Fund Gaps</a></li>
+<li><a href="#m3">3. Backwards Budgets</a></li>
+<li><a href="#m4">4. AGM Quorum Issues</a></li>
+<li><a href="#m5">5. No Performance Framework</a></li>
+<li><a href="#m6">6. Communication Mixing</a></li>
+<li><a href="#m7">7. Handover Documentation</a></li>
+</ul>
+</div>
+<div class="prod-card">
+<div class="prod-label">Advisory</div>
+<div class="prod-title">OA Governance Review</div>
+<div class="prod-desc">A structured assessment of your OA's governance position — delivered as a written report with prioritised action list.</div>
+<ul class="prod-features">
+<li>Reserve fund gap analysis</li>
+<li>Service charge budget review</li>
+<li>FM contract assessment</li>
+<li>AGM compliance check</li>
+<li>Handover documentation audit</li>
+</ul>
+<a href="https://www.raneesh.net/#contact" class="prod-btn">Enquire →</a>
+</div>
+<div class="sub-card">
+<div class="sub-title">Get Ground Floor</div>
+<div class="sub-desc">Wisdom, knowledge, and proven systems — extended freely to every FM practitioner, operator, and builder who deserves better than guesswork.</div>
+<form class="sub-form" onsubmit="subscribe(event)">
+<input type="email" id="sub-email" placeholder="your@email.com" required>
+<button type="submit">Subscribe Free →</button>
+</form>
+<div class="sub-success" id="sub-ok">✓ You're in.</div>
+</div>
+<div class="auth-card">
+<div class="auth-top">
+<div class="auth-avatar">R</div>
+<div><div class="auth-name">Raneesh Raveendran</div><div class="auth-role">GCC FM Strategist · Dubai, UAE</div></div>
+</div>
+<div class="auth-bio">20+ years in FM across airports, data centres, defence, residential, commercial, retail, and master communities in the UAE and India. IOSH, ISO 9001, RERA compliance.</div>
+<a href="https://www.raneesh.net" target="_blank" class="auth-link">View full profile →</a>
+</div>
+</aside>
+</div>
+
+<section class="related">
+<div class="related-label">More from Ground Floor</div>
+<div class="related-grid">
+<div class="rel-card" onclick="location.href='ppm-schedules-fail.html'"><div class="rc-pillar">PPM &amp; Maintenance</div><div class="rc-title">Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice</div><div class="rc-meta">July 2026 · 8 min read</div></div>
+<div class="rel-card" onclick="location.href='fm-contractor-cost.html'"><div class="rc-pillar">Contractor Intelligence</div><div class="rc-title">The Real Cost of Appointing the Wrong FM Contractor — With Numbers From the GCC</div><div class="rc-meta">July 2026 · 9 min read</div></div>
+<div class="rel-card" onclick="location.href='20-years-gcc-fm.html'"><div class="rc-pillar">FM Leadership</div><div class="rc-title">20 Years in GCC Facilities Management: What the Industry Still Gets Wrong</div><div class="rc-meta">August 2026 · 10 min read</div></div>
+</div>
+</section>
+
+<footer><div class="footer-inner">
+<div><a href="https://groundfloor.raneesh.net/" class="footer-brand">Ground<span>·Floor</span></a><div class="footer-tagline">Wisdom extended. Knowledge shared. People uplifted. · by Raneesh Raveendran</div></div>
+<div class="footer-links"><a href="https://groundfloor.raneesh.net">Blog</a><a href="https://www.raneesh.net" target="_blank">raneesh.net</a><a href="https://www.linkedin.com/in/raneesh-mr/" target="_blank">LinkedIn ↗</a></div>
+<div class="footer-copy">© 2026 Raneesh Raveendran · Dubai, UAE · <a href="https://www.raneesh.net/#contact">Contact</a></div>
+</div></footer>
+
+<div class="scroll-top" id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const a=document.querySelector('.art-body');
+  if(!a)return;
+  const top=a.getBoundingClientRect().top+window.scrollY-80;
+  const pct=Math.min(100,Math.max(0,((window.scrollY-top)/a.offsetHeight)*100));
+  document.getElementById('pb').style.width=pct+'%';
+  document.getElementById('st').classList.toggle('visible',window.scrollY>400);
+  const hs=document.querySelectorAll('.art-body h2[id]'),ls=document.querySelectorAll('.toc-list a');
+  let ac='';hs.forEach(h=>{if(h.getBoundingClientRect().top<120)ac=h.id;});
+  ls.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+ac));
+});
+function shareArticle(){const u=window.location.href,t=document.querySelector('.art-h1').textContent.trim();if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(()=>{const b=document.querySelector('.share-btn');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Share ↗',2000);});}}
+// ── Supabase config ─────────────────────────────────────────────
+const SUPABASE_URL      = 'https://ecpcbumcqzsgrknmwwaq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjcGNidW1jcXpzZ3Jrbm13d2FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NjMyNzksImV4cCI6MjA5MzMzOTI3OX0.rRJTZYkpcDKMYS5Oh5b17Uj1GW45P4Qwza0P_yLmWXI';
+
+async function subscribe(e) {
+  e.preventDefault();
+  const el  = document.getElementById('sub-email');
+  const btn = e.target.querySelector('button[type="submit"]');
+  const email = el.value.trim();
+  if (!email) return;
+
+  const origText = btn.textContent;
+  btn.textContent = 'Subscribing…';
+  btn.disabled = true;
+
+  const params = new URLSearchParams(window.location.search);
+  const payload = {
+    email,
+    source:       'ground_floor',
+    source_page:  window.location.pathname,
+    referrer:     document.referrer || null,
+    utm_source:   params.get('utm_source')   || null,
+    utm_campaign: params.get('utm_campaign') || null,
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok || res.status === 409) {
+      e.target.style.display = 'none';
+      document.getElementById('sub-ok').style.display = 'block';
+    } else { throw new Error('non-2xx'); }
+  } catch (_) {
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+  }
+}
+</script>
+</body>
+</html>

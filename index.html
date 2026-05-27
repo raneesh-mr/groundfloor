@@ -940,16 +940,16 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
 
 <!-- ANNOUNCE -->
 <div class="announce" data-screen-label="00 Announce">
-  Articles launch June 2026 — <a href="#subscribe">subscribe to get notified</a> the moment they do.
+  Operational knowledge that belongs to every FM practitioner — not locked in reports, not buried in final handovers. <a href="#subscribe">Extend it to yourself →</a>
 </div>
 
 <!-- NAV -->
 <nav data-screen-label="00 Nav">
   <div class="nav-inner">
-    <div class="nav-brand">
+    <a href="https://groundfloor.raneesh.net/" class="nav-brand">
       <div class="nav-brand-name">Ground<span class="sep">·</span><span>Floor</span></div>
       <div class="nav-brand-sub">Built from the ground up</div>
-    </div>
+    </a>
     <div class="nav-sep"></div>
     <ul class="nav-links">
       <li><a href="#articles">Articles</a></li>
@@ -981,8 +981,9 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
       </p>
       <p>
         They stay locked inside final reports nobody re-reads, presentations archived after the project closes,
-        and the heads of practitioners who move on. Ground Floor is where that changes.
-        Operational intelligence written by a practitioner, for the people who actually have to make these calls —
+        and the heads of practitioners who move on. Ground Floor is where that stops.
+        Wisdom, knowledge, and systems — extended to every process, every procedure, and every person who deserves
+        better than guesswork. Written by a practitioner, for the people who actually have to make these calls —
         <strong>not a consultancy charging AED 50,000 to state the obvious.</strong>
       </p>
     </div>
@@ -1007,15 +1008,15 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
 
   <div id="subscribe">
     <div class="subscribe-card">
-      <div class="sc-label">Stay Ahead</div>
-      <div class="sc-title">Get Ground Floor in your inbox.</div>
-      <div class="sc-desc">One article per month. No noise. No recycled LinkedIn content. Operational intelligence that's actually worth your time.</div>
+      <div class="sc-label">Elevate Your Practice</div>
+      <div class="sc-title">Knowledge that uplifts. Delivered free.</div>
+      <div class="sc-desc">Wisdom, knowledge, and proven systems — extended to every FM practitioner, operator, and builder who deserves better than guesswork. One article at a time.</div>
       <form class="sc-form" id="sub-form" onsubmit="handleSubscribe(event)">
         <input type="email" id="sub-email" placeholder="your@email.com" required />
         <button type="submit">Subscribe Free →</button>
       </form>
-      <div class="sub-success" id="sub-success">✓ You're in. First issue lands with the first article — June 2026.</div>
-      <div class="sc-note">No spam. Unsubscribe any time. Read by FM managers, OA boards, and GCC developers.</div>
+      <div class="sub-success" id="sub-success">✓ You're in. New articles land in your inbox as they publish.</div>
+      <div class="sc-note">No spam. Unsubscribe any time. For every FM manager, OA board, developer, and anyone building better systems — at any level, in any sector.</div>
 
       <div class="sc-divider"></div>
 
@@ -1059,17 +1060,17 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
 <div class="articles-wrap" data-screen-label="02 Articles">
 
   <!-- Article 1 — Featured -->
-  <div class="article-featured" data-pillar="oa">
+  <div class="article-featured" data-pillar="oa" onclick="location.href='article-01-oa-governance.html'" style="cursor:pointer">
     <div>
       <div class="af-meta">
         <span class="af-pillar">OA Governance</span>
-        <span class="af-badge">⏳ June 2026</span>
+        <span class="af-badge">March 2026</span>
         <span class="af-badge">12 min read</span>
       </div>
       <div class="af-title">The 7 Governance Mistakes Most Dubai OA Boards Make — And How to Fix Them</div>
       <div class="af-excerpt">
         RERA wrote the rulebook. Almost no OA board has actually read it — and the ones who have don't always follow it.
-        After working with boards across Palm Jumeirah, Arabian Ranches, and multiple master communities, the same seven
+        After working with boards across premium master communities, gated residential developments, and mid-market towers across the GCC, the same seven
         failures keep appearing. Predictable. Fixable. And every single one costs money.
       </div>
       <div class="af-read">Read article →</div>
@@ -1079,7 +1080,7 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
       <div class="af-side-meta">
         <b>The first article</b><br>
         Published with the launch<br>
-        of Ground Floor — June 2026
+        of Ground Floor — March 2026
       </div>
     </div>
   </div>
@@ -1087,7 +1088,7 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
   <!-- Article rows -->
   <div class="articles-list" id="articles-list">
 
-    <div class="article-row" data-pillar="ppm">
+    <div class="article-row" data-pillar="ppm" onclick="location.href='ppm-schedules-fail.html'" style="cursor:pointer">
       <div class="ar-num">02</div>
       <div class="ar-body">
         <span class="ar-pillar">PPM &amp; Maintenance</span>
@@ -1095,25 +1096,23 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
         <div class="ar-excerpt">The CAFM dashboard shows green. The compliance report is filed. The building is slowly falling apart. Planned maintenance in most GCC properties is theatre — scheduled for auditors, not for assets.</div>
       </div>
       <div class="ar-meta">
-        <span class="ar-badge">⏳ Coming</span>
-        <span class="ar-date">July 2026</span>
+        <span class="ar-date">April 2026</span>
       </div>
     </div>
 
-    <div class="article-row" data-pillar="contract">
+    <div class="article-row" data-pillar="contract" onclick="location.href='fm-contractor-cost.html'" style="cursor:pointer">
       <div class="ar-num">03</div>
       <div class="ar-body">
         <span class="ar-pillar">Contractor Intelligence</span>
         <div class="ar-title">The Real Cost of Appointing the Wrong FM Contractor — With Numbers From the GCC</div>
-        <div class="ar-excerpt">The cheapest bid won. Six months in: service credit dispute, open insurance claims, a board calling for your resignation. Real numbers on what contractor selection failure actually costs in GCC communities.</div>
+        <div class="ar-excerpt">The cheapest bid won. Six months in: service credit disputes, SLA failures, accelerated asset degradation. Real numbers on what contractor selection failure actually costs in GCC communities over a five-year contract cycle.</div>
       </div>
       <div class="ar-meta">
-        <span class="ar-badge">⏳ Coming</span>
-        <span class="ar-date">July 2026</span>
+        <span class="ar-date">April 2026</span>
       </div>
     </div>
 
-    <div class="article-row" data-pillar="leadership">
+    <div class="article-row" data-pillar="leadership" onclick="location.href='pre-handover-fm.html'" style="cursor:pointer">
       <div class="ar-num">04</div>
       <div class="ar-body">
         <span class="ar-pillar">FM Leadership</span>
@@ -1121,12 +1120,11 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
         <div class="ar-excerpt">The snag list gets the attention. The FM infrastructure behind it — service contracts, CAFM setup, as-builts, community rules — gets treated as an afterthought. By move-in day, it's already too late to fix cheaply.</div>
       </div>
       <div class="ar-meta">
-        <span class="ar-badge">⏳ Coming</span>
-        <span class="ar-date">Aug 2026</span>
+        <span class="ar-date">May 2026</span>
       </div>
     </div>
 
-    <div class="article-row" data-pillar="leadership">
+    <div class="article-row" data-pillar="leadership" onclick="location.href='20-years-gcc-fm.html'" style="cursor:pointer">
       <div class="ar-num">05</div>
       <div class="ar-body">
         <span class="ar-pillar">FM Leadership</span>
@@ -1134,15 +1132,14 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
         <div class="ar-excerpt">Airports, data centres, defence infrastructure, luxury residential, master communities. Two decades across the GCC and India. The problems that should have been solved by now — and why they persist in every sector, every emirate, every decade.</div>
       </div>
       <div class="ar-meta">
-        <span class="ar-badge">⏳ Coming</span>
-        <span class="ar-date">Aug 2026</span>
+        <span class="ar-date">May 2026</span>
       </div>
     </div>
 
   </div>
 
   <div class="empty-state" id="empty-state" hidden>
-    No articles in this pillar yet — the first dispatch lands June 2026.
+    No articles in this pillar yet.
   </div>
 </div>
 
@@ -1153,9 +1150,9 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
       <div class="adv-label">Work with Raneesh</div>
       <div class="adv-title">The articles are free.<br>The <em>hands-on work</em> isn't.</div>
       <div class="adv-desc">
-        If something you read here flags a problem in your building, portfolio, or community —
-        I'm available for engagements across the GCC. From a one-day FM Health Audit to
-        full CAFM implementation and OA governance advisory.
+        Wisdom should translate to action. If something you read here flags a problem in your building,
+        portfolio, or community — let's work on it together. Available for engagements across the GCC:
+        from a one-day FM Health Audit to full CAFM implementation and OA governance advisory.
       </div>
       <div class="adv-services">
         <span class="adv-chip">FM Health Audit</span>
@@ -1187,9 +1184,11 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
           The kind of experience that usually stays locked inside one person's head or buried in a final report nobody reads again.
         </p>
         <p>
-          Ground Floor exists to change that. I'm not a consultancy. I don't have a white-paper template.
-          When something appears here, it's because I've either done it, fixed it, or watched someone get
-          it badly wrong — and I've been in the room when the cost landed.
+          Ground Floor exists to change that. The mission is direct: extend 20 years of accumulated wisdom,
+          knowledge, and proven systems to every practitioner, process, and organisation that can use it —
+          to uplift their work, their teams, and their sense of purpose in what they do.
+          I'm not a consultancy. I don't have a white-paper template. When something appears here,
+          it's because I've either done it, fixed it, or watched someone get it badly wrong — and I've been in the room when the cost landed.
         </p>
         <p>
           Available for <strong>FM advisory, health audits, CAFM implementation,</strong> and
@@ -1235,8 +1234,8 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-brand-name">Ground<span class="sep">·</span><span>Floor</span></div>
-      <div class="footer-tagline">Built from the ground up. · by Raneesh Raveendran</div>
+      <a href="https://groundfloor.raneesh.net/" class="footer-brand-name">Ground<span class="sep">·</span><span>Floor</span></a>
+      <div class="footer-tagline">Wisdom extended. Knowledge shared. People uplifted. · by Raneesh Raveendran</div>
     </div>
     <div class="footer-links">
       <a href="https://www.raneesh.net" target="_blank" rel="noopener">raneesh.net</a>
@@ -1274,18 +1273,60 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
     document.getElementById('empty-state').toggleAttribute('hidden', visible > 0);
   });
 
+  // ── Supabase config ─────────────────────────────────────────────
+  const SUPABASE_URL      = 'https://ecpcbumcqzsgrknmwwaq.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjcGNidW1jcXpzZ3Jrbm13d2FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NjMyNzksImV4cCI6MjA5MzMzOTI3OX0.rRJTZYkpcDKMYS5Oh5b17Uj1GW45P4Qwza0P_yLmWXI';
+
   // ── Subscribe ───────────────────────────────────────────────────
-  function handleSubscribe(e) {
+  async function handleSubscribe(e) {
     e.preventDefault();
-    const email = document.getElementById('sub-email').value;
+    const email = document.getElementById('sub-email').value.trim();
     if (!email) return;
+
+    const btn = document.querySelector('#sub-form button[type="submit"]');
+    const origText = btn.textContent;
+    btn.textContent = 'Subscribing…';
+    btn.disabled = true;
+
+    const params = new URLSearchParams(window.location.search);
+    const payload = {
+      email,
+      source:       'ground_floor',
+      source_page:  window.location.pathname,
+      referrer:     document.referrer || null,
+      utm_source:   params.get('utm_source')   || null,
+      utm_campaign: params.get('utm_campaign') || null,
+    };
+
     try {
-      const stored = JSON.parse(localStorage.getItem('gf_subscribers') || '[]');
-      stored.push({ email, ts: new Date().toISOString() });
-      localStorage.setItem('gf_subscribers', JSON.stringify(stored));
-    } catch (_) {}
-    document.getElementById('sub-form').style.display = 'none';
-    document.getElementById('sub-success').style.display = 'block';
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'apikey':        SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer':        'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok || res.status === 409) {
+        // 409 = already subscribed — still show success
+        document.getElementById('sub-form').style.display = 'none';
+        document.getElementById('sub-success').style.display = 'block';
+      } else {
+        throw new Error('non-2xx');
+      }
+    } catch (_) {
+      btn.textContent = 'Try again — something went wrong';
+      btn.style.background = '#c0392b';
+      btn.disabled = false;
+      setTimeout(() => {
+        btn.textContent = origText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
   }
 
   // ── Scroll-to-top ───────────────────────────────────────────────
