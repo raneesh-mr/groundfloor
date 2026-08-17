@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23071728'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='17' font-weight='bold' fill='%23C8973C'>G</text></svg>">
+<title>Anatomy of a Service Charge: What Boards Should Interrogate — Ground Floor</title>
+<meta name="description" content="A service charge invoice shows a rate, an area and a total. The budget behind it is where every decision was made. What it contains, how to verify it independently, and the questions to put to your managing agent.">
+<meta name="author" content="Raneesh Raveendran">
+<meta property="og:title" content="Anatomy of a Service Charge: What Boards Should Interrogate">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://groundfloor.raneesh.net/service-charge-anatomy.html">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0WYXB77BGJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0WYXB77BGJ');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#071728;--navy-mid:#0E2640;--navy-light:#163352;
+  --gold:#C8973C;--gold-light:#E4B96A;--gold-pale:#F5E6CC;
+  --cream:#FAF7F2;--white:#FFFFFF;
+  --text:#0E1C2B;--text-mid:#3D5168;--text-muted:#7A8FA8;
+  --border:#D6CCBA;--border-light:#EDE8DF;
+  --fd:'Playfair Display',Georgia,serif;
+  --fb:'Outfit',sans-serif;--fm:'Roboto Mono',monospace;
+  --r:8px;--rl:14px;--tr:.2s ease;--max:1100px;--aw:680px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--fb);background:var(--cream);color:var(--text);line-height:1.7;font-size:16px}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border-light)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:58px;display:flex;align-items:center;gap:12px}
+.nav-brand{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:baseline;gap:1px}
+.nav-brand .dot{color:var(--gold);font-size:22px;line-height:0;vertical-align:-4px}
+.nav-back{font-family:var(--fm);font-size:11px;letter-spacing:.06em;color:var(--text-muted);padding:5px 10px;border:1px solid var(--border-light);border-radius:var(--r);transition:all var(--tr)}
+.nav-back:hover{color:var(--text-mid);border-color:var(--border)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.progress-wrap{width:100px;height:2px;background:var(--border-light);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;background:var(--gold);width:0%;transition:width .1s}
+.share-btn{font-family:var(--fm);font-size:11px;letter-spacing:.05em;color:var(--text-muted);padding:6px 12px;border:1px solid var(--border-light);border-radius:var(--r);cursor:pointer;background:transparent;transition:all var(--tr)}
+.share-btn:hover{color:var(--gold);border-color:var(--gold)}
+.nav-cta{font-family:var(--fb);font-size:12px;font-weight:600;color:var(--white);background:var(--navy);padding:7px 16px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.nav-cta:hover{background:var(--navy-mid)}
+
+/* ARTICLE HEADER */
+.art-header{max-width:var(--aw);margin:0 auto;padding:60px 28px 44px}
+.art-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.art-pillar::before{content:'';display:block;width:20px;height:2px;background:var(--gold)}
+.art-h1{font-family:var(--fd);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.5px;color:var(--navy);margin-bottom:16px}
+.art-subtitle{font-family:var(--fd);font-size:18px;font-style:italic;font-weight:400;color:var(--text-muted);line-height:1.55;margin-bottom:28px}
+.art-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--border-light)}
+.am-author{display:flex;align-items:center;gap:10px}
+.am-avatar{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.am-name{font-size:13px;font-weight:600;color:var(--navy)}
+.am-role{font-family:var(--fm);font-size:10px;letter-spacing:.05em;color:var(--text-muted)}
+.am-sep{width:1px;height:24px;background:var(--border-light)}
+.am-item{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted)}
+.am-item strong{color:var(--text-mid)}
+
+/* LAYOUT */
+.art-layout{max-width:var(--max);margin:0 auto;padding:0 28px 80px;display:grid;grid-template-columns:var(--aw) 1fr;gap:56px;align-items:start}
+
+/* ARTICLE BODY */
+.art-body h2{font-family:var(--fd);font-size:24px;font-weight:700;letter-spacing:-.3px;color:var(--navy);margin:40px 0 14px;line-height:1.2}
+.art-body h3{font-family:var(--fd);font-size:18px;font-weight:600;color:var(--navy);margin:28px 0 10px}
+.art-body p{color:var(--text-mid);margin-bottom:18px;font-size:16px;line-height:1.8}
+.art-body p strong{color:var(--text);font-weight:600}
+.art-body ul,.art-body ol{color:var(--text-mid);padding-left:22px;margin-bottom:18px}
+.art-body li{margin-bottom:8px;line-height:1.7}
+
+/* Pull quote */
+.pull-quote{border-left:3px solid var(--gold);padding:20px 24px;margin:32px 0;background:rgba(200,151,60,.05);border-radius:0 var(--r) var(--r) 0}
+.pull-quote p{font-family:var(--fd);font-size:19px;font-style:italic;color:var(--navy);line-height:1.5;margin-bottom:8px}
+.pull-quote cite{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase}
+
+/* Callout */
+.callout{border-radius:var(--r);padding:20px 22px;margin:24px 0}
+.callout.gold{background:rgba(200,151,60,.07);border:1px solid rgba(200,151,60,.25)}
+.callout.navy{background:rgba(7,23,40,.05);border:1px solid rgba(7,23,40,.15)}
+.callout.green{background:rgba(16,163,127,.06);border:1px solid rgba(16,163,127,.2)}
+.callout-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.callout.navy .callout-label{color:var(--navy)}
+.callout.green .callout-label{color:#0f8f6e}
+.callout p{margin-bottom:0;font-size:14px;line-height:1.7}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+.data-table th{text-align:left;padding:10px 14px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--border);background:var(--white)}
+.data-table td{padding:11px 14px;color:var(--text-mid);border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.55}
+.data-table td:first-child{font-weight:600;color:var(--navy)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(200,151,60,.03)}
+
+/* Numbered list */
+.nl{list-style:none;padding:0;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+.nl li{display:grid;grid-template-columns:44px 1fr;gap:0 14px;align-items:start;padding:16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--r)}
+.nl-num{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--border);line-height:1;padding-top:2px}
+.nl-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.nl-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+/* Tags */
+.art-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border-light)}
+.tag-chip{font-family:var(--fm);font-size:10px;letter-spacing:.07em;color:var(--text-muted);border:1px solid var(--border);background:var(--white);padding:4px 12px;border-radius:100px}
+
+/* End CTA */
+.art-end-cta{background:var(--navy);border-radius:var(--rl);padding:32px 28px;margin-top:40px;position:relative;overflow:hidden}
+.art-end-cta::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:radial-gradient(circle,rgba(200,151,60,.2) 0%,transparent 70%);border-radius:50%}
+.aec-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.aec-title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--white);margin-bottom:10px}
+.aec-body{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:18px}
+.aec-btn{display:inline-block;background:var(--gold);color:var(--navy);font-family:var(--fb);font-size:13px;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:background var(--tr)}
+.aec-btn:hover{background:var(--gold-light)}
+
+/* SIDEBAR */
+.art-sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:16px}
+.toc-card,.prod-card,.sub-card,.auth-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px}
+.toc-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.toc-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:2px}
+.toc-list a{font-size:12px;color:var(--text-muted);padding:5px 8px;border-radius:6px;display:block;transition:all var(--tr);border-left:2px solid transparent}
+.toc-list a:hover{color:var(--navy);background:var(--cream)}
+.toc-list a.active{color:var(--gold);border-left-color:var(--gold);background:rgba(200,151,60,.05)}
+.prod-label{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.prod-title{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.prod-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.prod-features{list-style:none;padding:0;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.prod-features li{font-size:12px;color:var(--text-mid);padding-left:14px;position:relative;line-height:1.5}
+.prod-features li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:11px}
+.prod-btn{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:700;color:var(--navy);background:var(--gold);padding:10px;border-radius:var(--r);transition:background var(--tr)}
+.prod-btn:hover{background:var(--gold-light)}
+.sub-title{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sub-desc{font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.sub-form input[type="email"]{width:100%;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;color:var(--text);font-size:13px;font-family:var(--fb);outline:none;margin-bottom:7px;transition:border-color var(--tr)}
+.sub-form input:focus{border-color:var(--gold)}
+.sub-form button{width:100%;background:var(--navy);color:var(--white);font-family:var(--fb);font-size:12px;font-weight:700;padding:9px;border-radius:var(--r);border:none;cursor:pointer;transition:background var(--tr)}
+.sub-form button:hover{background:var(--navy-mid)}
+.sub-success{display:none;font-size:12px;font-weight:600;color:#0f8f6e;background:rgba(16,163,127,.08);border:1px solid rgba(16,163,127,.2);border-radius:var(--r);padding:8px;margin-top:6px;text-align:center}
+.auth-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.auth-avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:700;color:var(--gold);flex-shrink:0}
+.auth-name{font-size:13px;font-weight:600;color:var(--navy)}
+.auth-role{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+.auth-bio{font-size:12px;color:var(--text-muted);line-height:1.65;margin-bottom:12px}
+.auth-link{display:block;text-align:center;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--gold);padding:8px;border:1px solid rgba(200,151,60,.3);border-radius:var(--r);transition:all var(--tr);background:rgba(200,151,60,.05)}
+.auth-link:hover{background:var(--gold);color:var(--navy)}
+
+/* RELATED */
+.related{border-top:1px solid var(--border-light);padding:48px 28px 64px;max-width:var(--max);margin:0 auto}
+.related-label{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.rel-card{background:var(--white);border:1px solid var(--border-light);border-radius:var(--rl);padding:20px;cursor:pointer;transition:all var(--tr)}
+.rel-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.rc-pillar{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.rc-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:8px}
+.rc-meta{font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text-muted)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border-light);background:var(--cream)}
+.footer-inner{max-width:var(--max);margin:0 auto;padding:28px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--navy)}
+.footer-brand span{color:var(--gold);font-style:italic}
+.footer-tagline{font-family:var(--fm);font-size:9px;letter-spacing:.08em;color:var(--text-muted);margin-top:2px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{font-family:var(--fm);font-size:11px;letter-spacing:.04em;color:var(--text-muted);transition:color var(--tr)}
+.footer-links a:hover{color:var(--text-mid)}
+.footer-copy{font-family:var(--fm);font-size:10px;letter-spacing:.03em;color:var(--text-muted);width:100%;padding-top:14px;border-top:1px solid var(--border-light);margin-top:6px}
+.scroll-top{position:fixed;bottom:24px;right:24px;width:36px;height:36px;background:var(--navy);color:var(--gold);border-radius:var(--r);font-family:var(--fm);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity var(--tr);z-index:100}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+
+@media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}}
+@media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="https://groundfloor.raneesh.net" class="nav-brand">Ground<span class="dot">·</span>Floor</a>
+    <a href="https://groundfloor.raneesh.net" class="nav-back">← All Articles</a>
+    <div class="nav-right">
+      <div class="progress-wrap"><div class="progress-bar" id="pb"></div></div>
+      <button class="share-btn" onclick="shareArticle()">Share ↗</button>
+      <button class="nav-cta" onclick="document.getElementById('sub-email').focus()">Subscribe</button>
+    </div>
+  </div>
+</nav>
+
+<header class="art-header">
+  <div class="art-pillar">OA Governance</div>
+  <h1 class="art-h1">Anatomy of a Service Charge: What Boards Should Interrogate Before Approving a Budget</h1>
+  <p class="art-subtitle">The invoice shows a rate, an area and a total. The budget behind it is where every real decision was made — and most boards approve it without opening it.</p>
+  <div class="art-meta">
+    <div class="am-author">
+      <div class="am-avatar">R</div>
+      <div>
+        <div class="am-name">Raneesh Raveendran</div>
+        <div class="am-role">FM &amp; Community Management · Dubai</div>
+      </div>
+    </div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>August 2026</strong></div>
+    <div class="am-sep"></div>
+    <div class="am-item"><strong>10</strong> min read</div>
+    <div class="am-sep"></div>
+    <div class="am-item">Dubai, UAE</div>
+  </div>
+</header>
+
+<div class="art-layout">
+<article class="art-body">
+
+<p>The budget pack lands in the board inbox on a Thursday. Forty pages, a covering summary, and a request for approval before the following week. Most of it is a spreadsheet export. One line in the summary says the charge is rising, and gives a reason: costs have increased.</p>
+
+<p>That reason is almost certainly true. It is also unfalsifiable as written, and it is the point at which most boards stop asking. The approval goes through, the invoices are issued, and eight months later somebody in a WhatsApp group asks what exactly they are paying for — by which time the answer costs far more to produce than it would have taken to ask for at the outset.</p>
+
+<p>I have sat on both sides of this. As the managing agent presenting the budget, and alongside boards trying to interrogate one. The gap is rarely bad faith. It is that most board members have never been shown what a service charge budget is made of, so they do not know which three questions actually move the number — and the industry has no commercial incentive to teach them.</p>
+
+<div class="pull-quote">
+<p>A board is not there to argue about the total. It is there to establish that the total is the arithmetic consequence of decisions somebody can defend.</p>
+<cite>Ground Floor</cite>
+</div>
+
+<h2 id="m1">1. What the number actually contains</h2>
+
+<p>An invoice presents as a single charge. It is normally three, stacked, and they are governed by different parties. Boards that miss this spend meetings arguing with the one party that cannot change the line in question.</p>
+
+<table class="data-table">
+<thead><tr><th>Component</th><th>What it funds</th><th>Why it moves</th></tr></thead>
+<tbody>
+<tr><td><strong>General fund</strong></td><td>The operating year — security, cleaning, common-area utilities and chiller, insurance, lift and fire contracts, landscaping, pest control, waste, plus the management fee.</td><td>Contract renewals, tariff changes, insurance premiums, scope creep. The volatile part, and the part a board can genuinely influence.</td></tr>
+<tr><td><strong>Reserve fund</strong></td><td>Replacement of major assets — lifts, chillers, facade sealant, fire panels, pumps, waterproofing. Sized by a lifecycle study of the actual building.</td><td>Reassessment of the study, or catch-up after years of deliberate underfunding. Should be the most stable line in the budget. Frequently is not.</td></tr>
+<tr><td><strong>Master community charge</strong></td><td>The district beyond your plot — shared roads, public landscaping, community security, district infrastructure.</td><td>Set by the master developer. Your managing agent neither controls it nor negotiates it, and cannot reduce it for you.</td></tr>
+</tbody>
+</table>
+
+<div class="callout gold">
+<div class="callout-label">The most common wasted meeting</div>
+<p>A board spends an hour pressing its managing agent on an increase that originated entirely in the master community charge. The agent cannot move it. The conversation that would have moved it needed to happen with the master developer, months earlier, through a different channel.</p>
+</div>
+
+<h2 id="m2">2. Who signs off before it reaches an owner</h2>
+
+<p>In Dubai, nothing is chargeable to an owner until RERA has approved the budget it comes from. The sequence is fixed, and understanding it changes what a board is actually doing when it reviews a pack.</p>
+
+<p>The managing agent builds a twelve-month budget covering the general and reserve funds. It is submitted to RERA through Mollak, the Land Department's platform for jointly owned property funds, with supporting material — service contracts, utility and insurance documentation, prior-year actuals, and competitive tenders for the major service lines rather than a single renewal quote from the incumbent. RERA reviews it. Only once approved can the charge be levied.</p>
+
+<p>Collection then runs through Mollak into a supervised account. Cash is not an accepted route. The managing agent is a signatory on that account; it does not own the money in it, and every payment out must trace back to an approved budget line.</p>
+
+<div class="callout navy">
+<div class="callout-label">What this means for a board</div>
+<p>Your review is not the approval. RERA's is. That makes the board's job narrower and more useful than most boards assume: not to authorise the number, but to make sure what gets submitted is defensible — and to establish, afterwards, that what is being collected matches what was approved. A mismatch between the two is not a disagreement. It is a compliance matter, and it belongs with RERA.</p>
+</div>
+
+<h2 id="m3">3. How to verify it independently</h2>
+
+<p>Three sources, none of which require the managing agent's cooperation. A board that checks these before the meeting arrives with questions instead of impressions.</p>
+
+<h3>The DLD Service Charge Index</h3>
+
+<p>The Dubai Land Department publishes an approved annual rate per square foot for registered buildings, searchable by building name. Find the building, note the rate, multiply by unit area. That is the expected annual figure before master community charges — and it is the fastest sanity check available on whether what is being invoiced matches what was approved.</p>
+
+<h3>Mollak and the Dubai REST app</h3>
+
+<p>Registered owners can see invoices, payment history and the registered budget. This is where the summary ends and the line items begin. If a board member cannot see the budget here, that itself is worth raising.</p>
+
+<h3>The prior year's audited accounts</h3>
+
+<p>The single most useful document, and the least often requested. Not the summary — the audited statement showing actual spend against what was budgeted, line by line. A budget presented without reference to last year's actuals is a budget nobody has tested.</p>
+
+<h2 id="m4">4. What separates a justified increase from a lazy one</h2>
+
+<p>Costs rise. That is not the question. The question is whether the increase in front of you is evidenced or asserted, and the difference is visible on the page.</p>
+
+<table class="data-table">
+<thead><tr><th>Evidenced</th><th>Asserted</th></tr></thead>
+<tbody>
+<tr><td>Named line items, each shown against last year's actual spend.</td><td>A single percentage applied across the whole budget.</td></tr>
+<tr><td>Fresh tenders for the contracts that rose, with more than one bidder.</td><td>The incumbent renewed without competition, at a higher price.</td></tr>
+<tr><td>Prior-year underspend identified and carried back into the budget.</td><td>No reference to prior-year actuals anywhere in the pack.</td></tr>
+<tr><td>A reserve contribution traceable to a dated lifecycle study.</td><td>A reserve figure that moves with no stated change in the asset.</td></tr>
+<tr><td>The management fee shown as its own line.</td><td>The management fee absorbed into "administration" or not visible at all.</td></tr>
+</tbody>
+</table>
+
+<p>Two figures are worth knowing the shape of, with a caveat attached to both. Management fees and reserve contributions are each normally expressed as a percentage of the budget, and market commentary in Dubai puts management fees in the low double digits and reserve contributions in the single digits. Those are observed market ranges, not regulated ceilings — nobody is in breach for sitting outside them, and quoting them as if they were a rule will cost a board credibility in the room. Their use is narrower: they tell you when to ask what the fee covers, and what the reserve percentage was derived from. The quality of the answer is the finding, not the number.</p>
+
+<h2 id="m5">5. The questions to put to your managing agent</h2>
+
+<p>In writing, before the meeting, with enough notice that the answers can be prepared properly. A good agent will welcome most of these; the reaction to them is itself informative.</p>
+
+<ul class="nl">
+<li><div class="nl-num">01</div><div><div class="nl-title">Show the budget against prior-year actuals, line by line</div><div class="nl-desc">Not the summary. If actuals are not available yet, ask when they will be, and whether the budget was built without them.</div></div></li>
+<li><div class="nl-num">02</div><div><div class="nl-title">Which contracts were tendered this year, and which were renewed?</div><div class="nl-desc">A renewal at a higher price with no competing bid is the most common soft spot in any budget. Ask for the bid comparison on the three largest lines.</div></div></li>
+<li><div class="nl-num">03</div><div><div class="nl-title">What is the reserve contribution derived from, and when was the study done?</div><div class="nl-desc">A lifecycle study with a date and an author, or an explanation of why there isn't one. This is the line that decides whether year eleven is routine or a special levy.</div></div></li>
+<li><div class="nl-num">04</div><div><div class="nl-title">Separate the master community charge from our own budget</div><div class="nl-desc">So the board knows which portion of any increase is actually within its influence, and stops litigating the portion that isn't.</div></div></li>
+<li><div class="nl-num">05</div><div><div class="nl-title">Where is the management fee, and what does it cover?</div><div class="nl-desc">As its own line, with a scope. If it is bundled into administration, ask for it to be unbundled before approval.</div></div></li>
+<li><div class="nl-num">06</div><div><div class="nl-title">Confirm what was collected last year against what was approved</div><div class="nl-desc">The reconciliation almost nobody asks for. Any gap between approved and collected needs an explanation on the record.</div></div></li>
+</ul>
+
+<div class="callout green">
+<div class="callout-label">Practical note</div>
+<p>Ask for these at least three weeks before the budget has to be submitted, not three days. A board that requests the pack late has no real option but to approve it, and every managing agent knows this. The calendar is more of a lever than the questions are.</p>
+</div>
+
+<h2 id="m6">6. What this does not fix</h2>
+
+<p>None of it will usually reduce the charge. Most increases turn out to be real, and the honest outcome of a well-run interrogation is often a number the community still has to pay, now understood. That is a legitimate result. Any board that treats budget review as a cost-cutting exercise will end up underfunding the reserve, which is the most expensive decision available to it and the one that takes a decade to become visible.</p>
+
+<p>The mechanics also vary more than one article can hold. Older buildings sit under transitional arrangements, branded residences carry contractual layers a standard tower does not, and villa communities work differently again. The percentages above are market commentary, not law. This is a general account of how service charges work in Dubai, not legal advice about your community — your jointly owned property declaration and your approved budget are the arbiters, and where they contradict anything here, they win.</p>
+
+<p>What the exercise is actually worth is smaller and more durable than a saving. Budgets that get read are built differently from budgets that do not — not because anyone is behaving badly, but because unexamined numbers drift, and examined ones don't. The first year a board asks these questions is the year the pack starts arriving with the answers already in it.</p>
+
+
+<div class="art-tags">
+<span class="tag-chip">Service Charge</span><span class="tag-chip">OA Governance</span><span class="tag-chip">RERA</span><span class="tag-chip">Mollak</span><span class="tag-chip">Reserve Fund</span><span class="tag-chip">Budget Review</span><span class="tag-chip">Dubai Communities</span>
+</div>
+
+<div class="art-end-cta">
+<div class="aec-label">Work with Raneesh</div>
+<div class="aec-title">OA Governance Review</div>
+<div class="aec-body">If your board is navigating any of these issues — reserve fund gaps, service charge disputes, FM contractor performance, handover disputes — I'm available for a structured governance review. Delivered as a written assessment with prioritised recommendations.</div>
+<a href="https://www.raneesh.net/#contact" class="aec-btn">Get in Touch →</a>
+</div>
+
+</article>
+
+<aside class="art-sidebar">
+<div class="toc-card">
+<div class="toc-label">In this article</div>
+<ul class="toc-list">
+<li><a href="#m1">1. What the Number Contains</a></li>
+<li><a href="#m2">2. Who Signs Off Before You Do</a></li>
+<li><a href="#m3">3. Verifying It Independently</a></li>
+<li><a href="#m4">4. Justified vs. Lazy Increases</a></li>
+<li><a href="#m5">5. Questions for Your Managing Agent</a></li>
+<li><a href="#m6">6. What This Does Not Fix</a></li>
+</ul>
+</div>
+<div class="prod-card">
+<div class="prod-label">Advisory</div>
+<div class="prod-title">OA Governance Review</div>
+<div class="prod-desc">A structured assessment of your OA's governance position — delivered as a written report with prioritised action list.</div>
+<ul class="prod-features">
+<li>Reserve fund gap analysis</li>
+<li>Service charge budget review</li>
+<li>FM contract assessment</li>
+<li>AGM compliance check</li>
+<li>Handover documentation audit</li>
+</ul>
+<a href="https://www.raneesh.net/#contact" class="prod-btn">Enquire →</a>
+</div>
+<div class="sub-card">
+<div class="sub-title">Get Ground Floor</div>
+<div class="sub-desc">Wisdom, knowledge, and proven systems — extended freely to every FM practitioner, operator, and builder who deserves better than guesswork.</div>
+<form class="sub-form" onsubmit="subscribe(event)">
+<input type="email" id="sub-email" placeholder="your@email.com" required>
+<button type="submit">Subscribe Free →</button>
+</form>
+<div class="sub-success" id="sub-ok">✓ You're in.</div>
+<p style="font-family:var(--fm,monospace);font-size:10px;letter-spacing:.04em;color:var(--text-muted,#9aa3af);margin:8px 0 0;text-align:center;">No spam. Unsubscribe any time.</p>
+</div>
+<div class="auth-card">
+<div class="auth-top">
+<div class="auth-avatar">R</div>
+<div><div class="auth-name">Raneesh Raveendran</div><div class="auth-role">FM Strategist · Dubai, UAE</div></div>
+</div>
+<div class="auth-bio">20+ years in FM across airports, data centres, defence, residential, commercial, retail, and master communities in the UAE and India. IOSH, ISO 9001, RERA compliance.</div>
+<a href="https://www.raneesh.net" target="_blank" class="auth-link">View full profile →</a>
+</div>
+</aside>
+</div>
+
+<section class="related">
+<div class="related-label">More from Ground Floor</div>
+<div class="related-grid">
+<div class="rel-card" onclick="location.href='article-01-oa-governance.html'"><div class="rc-pillar">OA Governance</div><div class="rc-title">The 7 Governance Mistakes Most Dubai OA Boards Make — And How to Fix Them</div><div class="rc-meta">April 2026 · 12 min read</div></div>
+<div class="rel-card" onclick="location.href='fm-contractor-cost.html'"><div class="rc-pillar">Contractor Intelligence</div><div class="rc-title">The Real Cost of Appointing the Wrong FM Contractor — With Numbers From the GCC</div><div class="rc-meta">April 2026 · 9 min read</div></div>
+<div class="rel-card" onclick="location.href='ppm-schedules-fail.html'"><div class="rc-pillar">PPM &amp; Maintenance</div><div class="rc-title">Why 80% of GCC PPM Schedules Exist on Paper and Fail in Practice</div><div class="rc-meta">April 2026 · 10 min read</div></div>
+</div>
+</section>
+
+<footer><div class="footer-inner">
+<div><a href="https://groundfloor.raneesh.net/" class="footer-brand">Ground<span>·Floor</span></a><div class="footer-tagline">Wisdom extended. Knowledge shared. People uplifted. · by Raneesh Raveendran</div></div>
+<div class="footer-links"><a href="https://groundfloor.raneesh.net">Blog</a><a href="https://www.raneesh.net" target="_blank">raneesh.net</a><a href="https://www.linkedin.com/in/raneesh-mr/" target="_blank">LinkedIn ↗</a></div>
+<div class="footer-copy">© 2026 Raneesh Raveendran · Dubai, UAE · <a href="https://www.raneesh.net/#contact">Contact</a></div>
+</div></footer>
+
+<div class="scroll-top" id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const a=document.querySelector('.art-body');
+  if(!a)return;
+  const top=a.getBoundingClientRect().top+window.scrollY-80;
+  const pct=Math.min(100,Math.max(0,((window.scrollY-top)/a.offsetHeight)*100));
+  document.getElementById('pb').style.width=pct+'%';
+  document.getElementById('st').classList.toggle('visible',window.scrollY>400);
+  const hs=document.querySelectorAll('.art-body h2[id]'),ls=document.querySelectorAll('.toc-list a');
+  let ac='';hs.forEach(h=>{if(h.getBoundingClientRect().top<120)ac=h.id;});
+  ls.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+ac));
+});
+function shareArticle(){const u=window.location.href,t=document.querySelector('.art-h1').textContent.trim();if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(()=>{const b=document.querySelector('.share-btn');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Share ↗',2000);});}}
+// ── Supabase config ─────────────────────────────────────────────
+const SUPABASE_URL      = 'https://ecpcbumcqzsgrknmwwaq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjcGNidW1jcXpzZ3Jrbm13d2FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NjMyNzksImV4cCI6MjA5MzMzOTI3OX0.rRJTZYkpcDKMYS5Oh5b17Uj1GW45P4Qwza0P_yLmWXI';
+
+async function subscribe(e) {
+  e.preventDefault();
+  const el  = document.getElementById('sub-email');
+  const btn = e.target.querySelector('button[type="submit"]');
+  const email = el.value.trim();
+  if (!email) return;
+
+  const origText = btn.textContent;
+  btn.textContent = 'Subscribing…';
+  btn.disabled = true;
+
+  const params = new URLSearchParams(window.location.search);
+  const payload = {
+    email,
+    source:       'ground_floor',
+    source_page:  window.location.pathname,
+    referrer:     document.referrer || null,
+    utm_source:   params.get('utm_source')   || null,
+    utm_campaign: params.get('utm_campaign') || null,
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok || res.status === 409) {
+      e.target.style.display = 'none';
+      document.getElementById('sub-ok').style.display = 'block';
+    } else { throw new Error('non-2xx'); }
+  } catch (_) {
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+  }
+}
+</script>
+</body>
+</html>
