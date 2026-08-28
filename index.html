@@ -1298,7 +1298,7 @@ body { overflow-x: clip; }
 
 <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // ── Pillar filter ───────────────────────────────────────────────
   const filtersEl = document.getElementById('filters');
   filtersEl.addEventListener('click', (e) => {
@@ -1359,92 +1359,6 @@ function handleSubscribeDone(form) {
   }, { passive: true });
 </script>
 
-<!-- ─────────── TWEAKS PANEL (React island) ─────────── -->
-<div id="tweaks-root"></div>
-
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel">
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "palette": "gold",
-    "density": "regular",
-    "dark": false,
-    "headline": "dies-in-the-room"
-  }/*EDITMODE-END*/;
-
-  const HEADLINES = {
-    "dies-in-the-room": {
-      h1: 'Most FM knowledge <em>dies in the room.</em>',
-      tag: 'Built from the ground up.'
-    },
-    "twenty-years": {
-      h1: 'Twenty years on the ground. <em>Finally written down.</em>',
-      tag: 'Built from the ground up.'
-    },
-    "not-a-white-paper": {
-      h1: 'Not a consultancy. <em>Not a white paper.</em><br>A practitioner.',
-      tag: 'Built from the ground up.'
-    },
-    "monday-morning": {
-      h1: 'FM intelligence you can use <em>Monday morning.</em>',
-      tag: 'Built from the ground up.'
-    }
-  };
-
-  function GFTweaks() {
-    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-
-    React.useEffect(() => {
-      document.body.dataset.palette = t.palette;
-      document.body.dataset.density = t.density;
-      document.body.dataset.dark = String(t.dark);
-    }, [t.palette, t.density, t.dark]);
-
-    React.useEffect(() => {
-      const h1 = document.getElementById('hero-headline');
-      const tag = document.getElementById('hero-tagline');
-      if (!h1 || !tag) return;
-      const v = HEADLINES[t.headline] || HEADLINES['dies-in-the-room'];
-      h1.innerHTML = v.h1;
-      tag.textContent = v.tag;
-    }, [t.headline]);
-
-    return (
-      <TweaksPanel>
-        <TweakSection label="Accent palette" />
-        <TweakColor label="Accent" value={t.palette}
-                    options={[
-                      { value: 'gold',    color: '#C8973C' },
-                      { value: 'copper',  color: '#B5642C' },
-                      { value: 'sand',    color: '#A88A4F' },
-                      { value: 'emerald', color: '#3F7F6B' }
-                    ]}
-                    onChange={(v) => setTweak('palette', v)} />
-        <TweakToggle label="Dark mode" value={t.dark}
-                     onChange={(v) => setTweak('dark', v)} />
-
-        <TweakSection label="Density" />
-        <TweakRadio  label="Spacing" value={t.density}
-                     options={['compact', 'regular', 'comfy']}
-                     onChange={(v) => setTweak('density', v)} />
-
-        <TweakSection label="Hero headline" />
-        <TweakSelect label="Variant" value={t.headline}
-                     options={[
-                       { value: 'dies-in-the-room',  label: 'Knowledge dies in the room' },
-                       { value: 'twenty-years',      label: 'Twenty years, written down' },
-                       { value: 'not-a-white-paper', label: 'Not a consultancy / white paper' },
-                       { value: 'monday-morning',    label: 'Use it Monday morning' }
-                     ]}
-                     onChange={(v) => setTweak('headline', v)} />
-      </TweaksPanel>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<GFTweaks />);
-</script>
 
 </body>
 </html>
