@@ -172,6 +172,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -244,6 +276,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The financial exposure becomes visible only when a major asset failure occurs. At that point, the board has three choices: special levy on residents, deferred repair (compounding the problem), or drawing down from operational reserves and creating a cash-flow crisis. All three are avoidable.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Asset</th><th>Typical Replacement Cost (Dubai)</th><th>Asset Life</th><th>Annual Reserve Required (500 units)</th></tr></thead>
 <tbody>
@@ -255,6 +288,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>BMS / SCADA Systems</td><td>AED 200K – 500K</td><td>10–15 years</td><td>AED 18K – 50K</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>A mid-size community running zero reserve fund is carrying an unfunded liability of <strong>AED 2.5M – 6M+</strong> in predictable future capital expenditure. This is not a risk. It is a scheduled cost with a known arrival window.</p>
 
@@ -298,6 +332,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>Without a performance framework, the FM company's incentive is to satisfy the relationship, not the contract. Those are not the same thing.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>KPI Category</th><th>Metric</th><th>Minimum Standard</th><th>Measurement Frequency</th></tr></thead>
 <tbody>
@@ -309,6 +344,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Compliance</td><td>Statutory inspection completion</td><td>100% on time</td><td>Per inspection schedule</td></tr>
 </tbody>
 </table>
+</div>
 
 <h2 id="m6">Mistake 6 — Mixing Governance and Operations in Resident Communication</h2>
 
@@ -329,6 +365,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The result: inherited defects become the OA's repair liability. Missing warranties become the OA's replacement cost. Incomplete as-built drawings make future maintenance work more expensive. Undefined snag lists mean developer obligations that expire unresolved.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Handover Document</th><th>Why It Matters</th><th>What Happens Without It</th></tr></thead>
 <tbody>
@@ -340,6 +377,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Insurance Certificates</td><td>Confirms all-risk/public liability coverage during handover period</td><td>Coverage gaps between developer and OA insurance periods</td></tr>
 </tbody>
 </table>
+</div>
 
 <div class="callout green">
 <div class="callout-label">Bottom line</div>

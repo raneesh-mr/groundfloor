@@ -929,6 +929,19 @@ footer { border-top: 1px solid var(--border-light); background: var(--cream); }
 }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   .subscribe-card drops to position:static below 900px, which left its
+   absolutely positioned ::before glow (top:-60px; right:-60px) with no
+   containing block on the card -- so the card's overflow:hidden stopped
+   clipping it, and it widened the document by exactly 60px at every width
+   under the breakpoint, phones and tablets alike. position:relative
+   restores the containing block. Nothing moves visually. */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+@media (max-width: 900px) {
+  .subscribe-card { position: relative; }
+}
 </style>
 </head>
 <body data-palette="gold" data-density="regular" data-dark="false">

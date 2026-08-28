@@ -152,6 +152,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 .scroll-top.visible{opacity:1;pointer-events:auto}
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}.cost-compare{grid-template-columns:1fr}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -207,6 +239,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The first question when a tender comes in 20% below the next lowest submission: where did the margin go? FM contracts in the GCC are priced on three primary cost centres — labour (typically 55–65% of the total), subcontractor costs (specialised trades and OEM contracts, 15–25%), and materials and consumables (10–20%). There is no fourth option. A price reduction at contract level comes from one or more of these.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Where the Margin Was Cut</th><th>What You See at Mobilisation</th><th>What You Feel at Year 2–3</th></tr></thead>
 <tbody>
@@ -217,6 +250,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Supervision and management overhead stripped</td><td>Site team operates without meaningful oversight. Reporting is attendance-based, not performance-based.</td><td>Client has no visibility of performance. Contract drift accelerates. Re-tender required 12–18 months early.</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>A contract priced 20% below the scope it is supposed to deliver is not 20% cheaper. It is 100% of the same risk, redistributed to the client — who will absorb it through reactive maintenance costs, capital expenditure acceleration, and the operational disruption of a mid-contract re-procurement.</p>
 
@@ -256,6 +290,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The most expensive consequence of an underperforming FM contractor is invisible until it hits the capital budget. Asset life reduction — the shortening of an asset's functional lifespan due to inadequate maintenance — does not appear in the FM contract cost. It appears four to seven years later as unplanned capital expenditure.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Asset</th><th>Standard Asset Life (Well Maintained)</th><th>Asset Life (Poorly Maintained)</th><th>Early Replacement Cost</th></tr></thead>
 <tbody>
@@ -267,6 +302,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Cooling Tower</td><td>15–18 years</td><td>8–11 years</td><td>AED 85K – 220K</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>A 600-unit community that runs an inadequate FM programme for five years can expect to bring forward three to five major capital expenditure events by four to eight years. The aggregated cost across a chiller plant, elevator fleet, and AHU inventory is AED 2.5M–6M in unplanned capital spending — triggered by a procurement decision that saved perhaps AED 400K over five years in annual FM contract costs.</p>
 

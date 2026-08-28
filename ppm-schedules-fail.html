@@ -179,6 +179,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}.stat-row{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}.stat-row{grid-template-columns:1fr}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -271,6 +303,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>Buildings in the GCC age differently than buildings in temperate climates. Cooling systems run at maximum load for nine months of the year. Facade and waterproofing systems are subject to extreme UV and thermal cycling. MEP infrastructure in master developments was often installed in phases, by multiple contractors, to varying standards. The as-installed condition and the as-documented condition diverge within the first operational cycle.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Asset Category</th><th>Typical Asset Register Accuracy at Year 5</th><th>Primary Gap</th><th>Maintenance Impact</th></tr></thead>
 <tbody>
@@ -282,6 +315,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Facade &amp; External</td><td>30–50%</td><td>No formal condition survey — visual only at most sites</td><td>Waterproofing and sealant failures go undetected</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>A PPM schedule built on a 55% accurate asset register will miss, at minimum, 30–40% of maintenance events — not because the FM team failed to execute, but because the schedule did not include those assets in the first place. The result looks like a high completion rate against a fundamentally incomplete scope.</p>
 
@@ -348,6 +382,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The standard GCC FM contract structure does not resolve this. The FM company is responsible for the maintenance programme. The material procurement responsibility is often shared, disputed, or ambiguous — sitting in a grey zone between the FM company's operational budget and the client's capital budget, with no pre-approved spend authority for the FM team to act without escalation.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Scenario</th><th>Standard Contract Outcome</th><th>PPM Impact</th></tr></thead>
 <tbody>
@@ -357,6 +392,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Generator air filter requires replacement</td><td>FM completes visual, marks task done. Part on order.</td><td>Completion rate shows 100%. Asset operating outside spec.</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>The FM companies that execute PPM programmes well do not rely on reactive procurement. They maintain a pre-approved, site-specific spare parts inventory — funded from the maintenance budget, verified against the asset register, and refreshed on a rolling cycle. The initial inventory build typically costs AED 25,000–80,000 depending on portfolio size. It is the single operational investment that has the most direct impact on PPM execution rates.</p>
 

@@ -155,6 +155,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 .scroll-top.visible{opacity:1;pointer-events:auto}
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -280,6 +312,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>The standard GCC O&amp;M manual is: a collection of manufacturer data sheets and installation manuals assembled by the MEP subcontractor into a set of ring binders or a folder on a USB drive. It is not a building-specific operating guide. It describes how the equipment works in general, not how the installed configuration of this specific building should be operated and maintained.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>What Developers Deliver</th><th>What FM Teams Can Actually Use</th></tr></thead>
 <tbody>
@@ -290,6 +323,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td>Single copy, developer's office</td><td>FM site copy, OA copy, digital backup with version control</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>The gap matters most in the first twelve months of operation, when the FM team is encountering the building's systems for the first time and operating without an institutional knowledge base. In the absence of usable documentation, the default is trial and error — which in a live residential or commercial building means resident complaints, service interruptions, and a reactive maintenance bill that compounds the mobilisation cost.</p>
 

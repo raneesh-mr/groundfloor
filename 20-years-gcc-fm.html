@@ -152,6 +152,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 .scroll-top.visible{opacity:1;pointer-events:auto}
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}.cb-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>

@@ -204,6 +204,38 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 @media(max-width:900px){.art-layout{grid-template-columns:1fr}.art-sidebar{position:static}.art-header{padding:40px 20px 30px}.art-layout{padding:0 20px 60px}}
 @media(max-width:600px){.art-h1{font-size:26px}.progress-wrap{display:none}}
+
+/* -- Mobile hardening, 28 Aug 2026 -------------------------------------
+   Every article scrolled sideways on a phone. The .art-layout grid track
+   sizes to min-content, so one wide table widened the whole document, and
+   the sticky nav then stretched with it and pushed its right-hand controls
+   off screen. Tables now scroll inside their own box; minmax(0,...) stops a
+   track blowing out; overflow-x:clip on the root is the backstop (clip, not
+   hidden, so position:sticky keeps working). */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+.art-layout { grid-template-columns: minmax(0, var(--aw)) minmax(0, 1fr); }
+.art-body, .art-sidebar { min-width: 0; }
+.art-body p, .art-body li, .art-body td, .art-body th,
+.art-body h1, .art-body h2, .art-body h3 { overflow-wrap: break-word; }
+.table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; }
+.table-scroll .data-table { margin: 0; min-width: 460px; }
+@media (max-width: 900px) {
+  .art-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* the brand and the back link both go home; the Subscribe button duplicates
+     the sidebar form, so it is the one that gives way */
+  .nav-cta { display: none; }
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .share-btn { padding: 6px 10px; }
+  .art-header { padding: 36px 18px 28px; }
+  .art-layout { padding: 0 18px 56px; }
+  .related { padding: 40px 18px 56px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { padding: 24px 18px; }
+  .art-meta { gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -265,6 +297,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>A post-dated cheque in a Dubai tenancy does three separate jobs at once.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th>Function</th><th>What it does</th><th>What it costs the landlord</th></tr></thead>
 <tbody>
@@ -273,6 +306,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td><strong>It secures</strong></td><td>Every cheque for the year is handed over on day one. The landlord holds the full annual value from the moment the lease is signed, however many instalments are written on the face of them.</td><td>Nothing</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>No landlord in this market runs their own underwriting, because they have never had to. And if a cheque bounces, there is a fast route to the Rental Disputes Centre — 3.5% of annual rent to file, capped at AED 20,000, most matters closed inside 30 to 60 days.</p>
 
@@ -316,6 +350,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 
 <p>In Dubai, residential property payments are not one flow. They are two, and they are structurally different in every respect that matters.</p>
 
+<div class="table-scroll">
 <table class="data-table">
 <thead><tr><th></th><th>Rent</th><th>Service charge</th></tr></thead>
 <tbody>
@@ -328,6 +363,7 @@ footer{border-top:1px solid var(--border-light);background:var(--cream)}
 <tr><td><strong>VAT</strong></td><td>Residential exempt</td><td>Generally 5%</td></tr>
 </tbody>
 </table>
+</div>
 
 <p>Read the enforcement row again. Service charge arrears attach a statutory lien to the property. The DLD blocks any sale or transfer until the debt clears. Ultimately the unit goes to judicial auction.</p>
 
