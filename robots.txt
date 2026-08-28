@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://groundfloor.raneesh.net/sitemap.xml
