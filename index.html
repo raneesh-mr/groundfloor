@@ -689,6 +689,8 @@ body[data-dark="true"] .nav-cta:hover { background: var(--gold-light); }
   border-radius: 100px;
   transition: all var(--tr);
 }
+.adv-case{display:inline-block;margin-top:18px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--gold-light);border-bottom:1px solid rgba(200,151,60,.4);padding-bottom:2px;transition:color var(--tr),border-color var(--tr)}
+.adv-case:hover{color:var(--gold-pale);border-bottom-color:var(--gold-pale)}
 .adv-chip:hover { color: #FFFFFF; border-color: rgba(255,255,255,.35); }
 .adv-right { display: flex; flex-direction: column; gap: 12px; text-align: center; }
 .adv-cta {
@@ -1061,7 +1063,7 @@ body { overflow-x: clip; }
   <div class="section-head">
     <div class="sh-left">
       <span class="sh-label">Articles</span>
-      <span class="sh-count" id="article-count">7 articles published</span>
+      <span class="sh-count" id="article-count">8 articles published</span>
     </div>
     <div class="filters" id="filters">
       <button class="filter-btn active" data-pillar="all">All</button>
@@ -1185,6 +1187,19 @@ body { overflow-x: clip; }
       </div>
     </a>
 
+    <a class="article-row" data-pillar="tech" href="w-pulse-whatsapp-to-operations">
+      <div class="ar-num">08</div>
+      <div class="ar-body">
+        <span class="ar-pillar">Tech &amp; AI</span>
+        <div class="ar-title">I Turned Four WhatsApp Groups Into a Live Operations Dashboard</div>
+        <div class="ar-excerpt">Technicians don't open the CAFM. They open WhatsApp &mdash; a photo, a &ldquo;checking&rdquo;, an &ldquo;any update?&rdquo;, a &ldquo;done&rdquo;, and nothing logged. So I stopped trying to move the work and built a read-only AI layer that reads it instead. 530 messages a week, 82 issues tracked, 40 routine jobs that were leaving no record at all &mdash; and the three questions nobody could answer before.</div>
+      </div>
+      <div class="ar-meta">
+        <span class="ar-date">Nov 2026</span>
+        <span class="ar-badge">13 min read</span>
+      </div>
+    </a>
+
   </div>
 
   <div class="empty-state" id="empty-state" hidden>
@@ -1211,6 +1226,7 @@ body { overflow-x: clip; }
         <span class="adv-chip">Contractor Vetting</span>
         <span class="adv-chip">Pre-Handover FM Planning</span>
       </div>
+      <a class="adv-case" href="w-pulse-whatsapp-to-operations">CAFM in practice: how I turned four WhatsApp groups into a live operations dashboard &rarr;</a>
     </div>
     <div class="adv-right">
       <a href="https://www.raneesh.net/#contact" target="_blank" rel="noopener" class="adv-cta">Get in Touch →</a>
